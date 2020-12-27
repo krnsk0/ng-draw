@@ -3,20 +3,13 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ToolsComponent } from './tools/tools.component';
-import { MainComponent } from './main/main.component';
+import { CanvasComponent } from './canvas/canvas.component';
 import { PropertiesComponent } from './properties/properties.component';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ToolsComponent,
-    MainComponent,
-    PropertiesComponent
-  ],
-  imports: [
-    BrowserModule
-  ],
+  declarations: [AppComponent, ToolsComponent, CanvasComponent, PropertiesComponent],
+  imports: [BrowserModule],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
