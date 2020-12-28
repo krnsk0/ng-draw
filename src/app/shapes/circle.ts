@@ -1,4 +1,4 @@
-import { Shape } from './';
+import { Shape } from './shape';
 
 export class Circle extends Shape {
   constructor(private color: string, private x: number, private y: number, private radius: number) {

@@ -1,4 +1,4 @@
-import { Shape } from './';
+import { Shape } from './shape';
 
 export class Rectangle extends Shape {
   constructor(
