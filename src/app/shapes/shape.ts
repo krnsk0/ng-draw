@@ -4,10 +4,12 @@ export abstract class Shape {
   readonly id: string;
   readonly type: string;
   private _selected = false;
+  color: string;
 
-  constructor(type: string) {
+  constructor(type: string, color: string) {
     this.id = uuidv4();
     this.type = type;
+    this.color = color;
   }
 
   abstract draw(ctx: CanvasRenderingContext2D): void;

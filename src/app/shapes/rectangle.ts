@@ -2,13 +2,13 @@ import { Shape } from './shape';
 
 export class Rectangle extends Shape {
   constructor(
-    private color: string,
-    private x: number,
-    private y: number,
-    private width: number,
-    private height: number
+    color: string,
+    public x: number,
+    public y: number,
+    public width: number,
+    public height: number
   ) {
-    super('Rectangle');
+    super('Rectangle', color);
   }
 
   draw(ctx: CanvasRenderingContext2D): void {

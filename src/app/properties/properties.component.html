@@ -9,7 +9,7 @@
       <div class="shape-title">{{ shape.type }}</div>
       <div class="delete-button" (click)="handleDelete(shape.id)">Delete</div>
     </div>
-    <div *ngIf="shape.type === 'Circle'">
+    <div *ngIf="isCircle(shape)">
       <div class="row">
         <div>center x</div>
         <div>{{ shape.x }}</div>
@@ -23,7 +23,7 @@
         <div>{{ shape.radius }}</div>
       </div>
     </div>
-    <div *ngIf="shape.type === 'Rectangle'">
+    <div *ngIf="isRectangle(shape)">
       <div class="row">
         <div>x</div>
         <div>{{ shape.x }}</div>

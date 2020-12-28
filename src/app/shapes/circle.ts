@@ -1,8 +1,8 @@
 import { Shape } from './shape';
 
 export class Circle extends Shape {
-  constructor(private color: string, private x: number, private y: number, private radius: number) {
-    super('Circle');
+  constructor(color: string, public x: number, public y: number, public radius: number) {
+    super('Circle', color);
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
