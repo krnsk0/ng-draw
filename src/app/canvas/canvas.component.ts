@@ -29,7 +29,6 @@ export class CanvasComponent implements OnInit {
 
   updateScene(scene: Scene): void {
     this.clear();
-
     scene.forEach((shape: Shape) => {
       if (this.ctx) {
         shape.draw(this.ctx);
@@ -49,9 +48,7 @@ export class CanvasComponent implements OnInit {
       const domRect = this.canvasRef.nativeElement.getBoundingClientRect();
       const x = event.clientX - domRect.x;
       const y = event.clientY - domRect.y;
-
-      const shape = this.sceneService.findTopmostShapeUnderCursor(x, y);
-      console.log('got shape:', shape);
+      this.sceneService.selectClick(x, y);
     }
   }
 }

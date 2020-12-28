@@ -1,5 +1,10 @@
-<div>
-  <div *ngFor="let shape of scene" class="properties-container">
+<div class="properties-container">
+  <div *ngIf="!getSelectedShapes().length">
+    <div>
+      <div class="row">No shapes selected</div>
+    </div>
+  </div>
+  <div *ngFor="let shape of getSelectedShapes()" class="shape-container">
     <div class="row">
       <div class="shape-title">{{ shape.type }}</div>
       <div class="delete-button" (click)="handleDelete(shape.id)">Delete</div>

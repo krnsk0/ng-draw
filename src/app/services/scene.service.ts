@@ -40,4 +40,24 @@ export class SceneService {
     sceneCopy.reverse(); // reverse to allow running Array.prototype.find() from end
     return sceneCopy.find((shape) => shape.isPointInShape(x, y)) || null;
   }
+
+  selectClick(x: number, y: number): void {
+    // what's the shape under the cursor?
+    const shape = this.findTopmostShapeUnderCursor(x, y);
+
+    // toggle shape selection
+    if (shape) {
+      shape.selected = !shape.selected;
+    }
+
+    // deselect all shapes
+    if (!shape) {
+      this.sceneState.forEach((currentShape) => {
+        currentShape.selected = false;
+      });
+    }
+
+    // push a scene update
+    this.scene$.next(this.sceneState);
+  }
 }

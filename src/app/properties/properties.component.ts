@@ -21,6 +21,10 @@ export class PropertiesComponent implements OnInit {
     });
   }
 
+  getSelectedShapes(): Scene {
+    return this.scene.filter((shape) => shape.selected);
+  }
+
   handleDelete(uuid: string): void {
     this.sceneService.removeShapeById(uuid);
   }

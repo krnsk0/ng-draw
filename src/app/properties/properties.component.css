@@ -1,7 +1,10 @@
 .properties-container {
+  width: 15em;
+}
+
+.shape-container {
   border: 1px solid black;
   margin: 0 0 0.5em 0.5em;
-  width: 15em;
   padding: 1em 0.25em 1em 0.25em;
 }
 
