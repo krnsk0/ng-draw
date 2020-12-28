@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Scene, Shape, Rectangle, Circle } from '../shape';
+import { Scene, Shape, Rectangle, Circle } from '../shapes';
 
 @Injectable({
   providedIn: 'root',
