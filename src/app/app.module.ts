@@ -3,11 +3,11 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { ToolsComponent } from './tools/tools.component';
-import { CanvasComponent } from './canvas/canvas.component';
 import { PropertiesComponent } from './properties/properties.component';
+import { CanvasComponent } from './canvas/canvas.component';
 
 @NgModule({
-  declarations: [AppComponent, ToolsComponent, CanvasComponent, PropertiesComponent],
+  declarations: [AppComponent, ToolsComponent, PropertiesComponent, CanvasComponent],
   imports: [BrowserModule],
   providers: [],
   bootstrap: [AppComponent],
