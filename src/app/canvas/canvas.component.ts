@@ -9,6 +9,8 @@ export class CanvasComponent implements OnInit {
   @ViewChild('canvas', { static: true })
   canvas: ElementRef<HTMLCanvasElement> | null = null;
   private ctx: CanvasRenderingContext2D | null = null;
+  width = 500;
+  height = 500;
 
   constructor() {}
 
@@ -17,16 +19,19 @@ export class CanvasComponent implements OnInit {
       const ctx = this.canvas.nativeElement.getContext('2d');
       if (ctx) {
         this.ctx = ctx;
-        this.drawRect('black', 100, 100, 200, 200);
-        this.drawCircle('brown', 250, 250, 100);
       }
     }
+
+    setTimeout(() => {
+      this.drawRect('black', 100, 100, 200, 200);
+      this.drawCircle('brown', 250, 250, 100);
+    }, 0);
   }
 
   clear(): void {
     if (this.ctx) {
       this.ctx.fillStyle = 'white';
-      this.ctx.fillRect(0, 0, 500, 500);
+      this.ctx.fillRect(0, 0, this.width, this.height);
     }
   }
 
