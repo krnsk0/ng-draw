@@ -23,6 +23,13 @@ export class CanvasComponent implements OnInit {
     }
   }
 
+  clear(): void {
+    if (this.ctx) {
+      this.ctx.fillStyle = 'white';
+      this.ctx.fillRect(0, 0, 500, 500);
+    }
+  }
+
   drawRect(color: string, x1: number, y1: number, x2: number, y2: number): void {
     if (this.ctx) {
       this.ctx.fillStyle = color;
