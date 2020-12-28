@@ -1,5 +1,5 @@
 import { Shape } from './shape';
-import { selectionHaloColor, selectionHaloSize } from '../constants';
+import { selectionHaloColor, selectionHaloSize, hoverHaloColor, hoverHaloSize } from '../constants';
 export class Rectangle extends Shape {
   constructor(
     color: string,
@@ -9,6 +9,19 @@ export class Rectangle extends Shape {
     public height: number
   ) {
     super('Rectangle', color);
+  }
+
+  drawHoverHalo(ctx: CanvasRenderingContext2D): void {
+    if (this.selected) {
+      const { x, y, width, height } = this;
+      ctx.fillStyle = hoverHaloColor;
+      ctx.fillRect(
+        x - hoverHaloSize / 2,
+        y - hoverHaloSize / 2,
+        width + hoverHaloSize,
+        height + hoverHaloSize
+      );
+    }
   }
 
   drawSelectionHalo(ctx: CanvasRenderingContext2D): void {

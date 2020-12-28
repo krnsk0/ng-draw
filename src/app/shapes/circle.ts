@@ -1,9 +1,18 @@
 import { Shape } from './shape';
-
-import { selectionHaloColor, selectionHaloSize } from '../constants';
+import { selectionHaloColor, selectionHaloSize, hoverHaloColor, hoverHaloSize } from '../constants';
 export class Circle extends Shape {
   constructor(color: string, public x: number, public y: number, public radius: number) {
     super('Circle', color);
+  }
+
+  drawHoverHalo(ctx: CanvasRenderingContext2D): void {
+    if (this.selected) {
+      const { x, y, radius } = this;
+      ctx.fillStyle = hoverHaloColor;
+      ctx.beginPath();
+      ctx.arc(x, y, radius + hoverHaloSize / 2, 0, 2 * Math.PI);
+      ctx.fill();
+    }
   }
 
   drawSelectionHalo(ctx: CanvasRenderingContext2D): void {
