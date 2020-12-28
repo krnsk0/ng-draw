@@ -1,24 +1,44 @@
 <div>
-  <div class="properties-container">
+  <div *ngFor="let shape of scene" class="properties-container">
     <div class="row">
-      <div class="shape-title">Shape title</div>
-      <div class="delete-button">Delete</div>
+      <div class="shape-title">{{ shape.type }}</div>
+      <div class="delete-button" (click)="handleDelete(shape.id)">Delete</div>
     </div>
-    <div class="row">
-      <div>center x</div>
-      <div>250</div>
+    <div *ngIf="shape.type === 'Circle'">
+      <div class="row">
+        <div>center x</div>
+        <div>{{ shape.x }}</div>
+      </div>
+      <div class="row">
+        <div>center y</div>
+        <div>{{ shape.y }}</div>
+      </div>
+      <div class="row">
+        <div>radius</div>
+        <div>{{ shape.radius }}</div>
+      </div>
     </div>
-    <div class="row">
-      <div>center y</div>
-      <div>250</div>
-    </div>
-    <div class="row">
-      <div>radius</div>
-      <div>250</div>
+    <div *ngIf="shape.type === 'Rectangle'">
+      <div class="row">
+        <div>x</div>
+        <div>{{ shape.x }}</div>
+      </div>
+      <div class="row">
+        <div>y</div>
+        <div>{{ shape.y }}</div>
+      </div>
+      <div class="row">
+        <div>width</div>
+        <div>{{ shape.width }}</div>
+      </div>
+      <div class="row">
+        <div>height</div>
+        <div>{{ shape.height }}</div>
+      </div>
     </div>
     <div class="row">
       <div>color</div>
-      <div class="color-swatch"></div>
+      <div class="color-swatch" [style.background]="shape.color"></div>
     </div>
   </div>
 </div>
