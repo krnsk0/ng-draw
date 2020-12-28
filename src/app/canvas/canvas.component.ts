@@ -29,8 +29,11 @@ export class CanvasComponent implements OnInit {
 
   updateScene(scene: Scene): void {
     this.clear();
+
+    // draw selected hapes
     scene.forEach((shape: Shape) => {
       if (this.ctx) {
+        shape.drawSelectionHalo(this.ctx);
         shape.draw(this.ctx);
       }
     });

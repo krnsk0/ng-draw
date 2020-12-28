@@ -12,6 +12,7 @@ export abstract class Shape {
     this.color = color;
   }
 
+  abstract drawSelectionHalo(ctx: CanvasRenderingContext2D): void;
   abstract draw(ctx: CanvasRenderingContext2D): void;
   abstract isPointInShape(x: number, y: number): boolean;
 
