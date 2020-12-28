@@ -7,19 +7,18 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 })
 export class CanvasComponent implements OnInit {
   @ViewChild('canvas', { static: true })
-  canvas: ElementRef<HTMLCanvasElement> | null = null;
+  canvasRef: ElementRef<HTMLCanvasElement> | null = null;
   private ctx: CanvasRenderingContext2D | null = null;
+
   width = 500;
   height = 500;
 
   constructor() {}
 
   ngOnInit(): void {
-    if (this.canvas) {
-      const ctx = this.canvas.nativeElement.getContext('2d');
-      if (ctx) {
-        this.ctx = ctx;
-      }
+    if (this.canvasRef) {
+      const ctx = this.canvasRef.nativeElement.getContext('2d');
+      if (ctx) this.ctx = ctx;
     }
 
     setTimeout(() => {
@@ -48,6 +47,15 @@ export class CanvasComponent implements OnInit {
       this.ctx.beginPath();
       this.ctx.arc(x, y, radius, 0, 2 * Math.PI);
       this.ctx.fill();
+    }
+  }
+
+  handleClick(event: MouseEvent): void {
+    if (this.canvasRef) {
+      const domRect = this.canvasRef.nativeElement.getBoundingClientRect();
+      const x = event.clientX - domRect.x;
+      const y = event.clientY - domRect.y;
+      console.log(`canvas clicked at ${x}, ${y}`);
     }
   }
 }
