@@ -12,13 +12,13 @@ export class SceneService {
   constructor() {
     setTimeout(() => {
       this.addShapeToScene(new Rectangle('black', 100, 100, 200, 200));
-    }, 250);
+    }, 100);
     setTimeout(() => {
       this.addShapeToScene(new Circle('brown', 300, 200, 50));
-    }, 500);
+    }, 200);
     setTimeout(() => {
       this.addShapeToScene(new Rectangle('green', 125, 50, 25, 400));
-    }, 750);
+    }, 300);
   }
 
   addShapeToScene(shape: Shape): void {
@@ -33,5 +33,11 @@ export class SceneService {
 
   getSceneObservable(): BehaviorSubject<Scene> {
     return this.scene$;
+  }
+
+  findTopmostShapeUnderCursor(x: number, y: number): Shape | null {
+    const sceneCopy = this.sceneState.slice();
+    sceneCopy.reverse(); // reverse to allow running Array.prototype.find() from end
+    return sceneCopy.find((shape) => shape.isPointInShape(x, y)) || null;
   }
 }

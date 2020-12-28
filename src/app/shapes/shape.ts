@@ -11,6 +11,7 @@ export abstract class Shape {
   }
 
   abstract draw(ctx: CanvasRenderingContext2D): void;
+  abstract isPointInShape(x: number, y: number): boolean;
 }
 
 export type Scene = Shape[];

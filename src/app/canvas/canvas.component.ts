@@ -49,7 +49,9 @@ export class CanvasComponent implements OnInit {
       const domRect = this.canvasRef.nativeElement.getBoundingClientRect();
       const x = event.clientX - domRect.x;
       const y = event.clientY - domRect.y;
-      console.log(`canvas clicked at ${x}, ${y}`);
+
+      const shape = this.sceneService.findTopmostShapeUnderCursor(x, y);
+      console.log('got shape:', shape);
     }
   }
 }
