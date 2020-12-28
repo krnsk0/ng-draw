@@ -1,4 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { SceneService } from '../services/scene.service';
+import { Scene, Shape, Rectangle, Circle } from '../types';
 
 @Component({
   selector: 'app-canvas',
@@ -9,11 +11,10 @@ export class CanvasComponent implements OnInit {
   @ViewChild('canvas', { static: true })
   canvasRef: ElementRef<HTMLCanvasElement> | null = null;
   private ctx: CanvasRenderingContext2D | null = null;
-
   width = 500;
   height = 500;
 
-  constructor() {}
+  constructor(private sceneService: SceneService) {}
 
   ngOnInit(): void {
     if (this.canvasRef) {
@@ -21,10 +22,21 @@ export class CanvasComponent implements OnInit {
       if (ctx) this.ctx = ctx;
     }
 
-    setTimeout(() => {
-      this.drawRect('black', 100, 100, 200, 200);
-      this.drawCircle('brown', 250, 250, 100);
-    }, 0);
+    this.sceneService.getSceneObservable().subscribe((nextScene) => {
+      this.updateScene(nextScene);
+    });
+  }
+
+  updateScene(scene: Scene): void {
+    this.clear();
+    scene.forEach((shape: Shape) => {
+      if (shape.type === 'Rectangle') {
+        this.drawRect(shape);
+      }
+      if (shape.type === 'Circle') {
+        this.drawCircle(shape);
+      }
+    });
   }
 
   clear(): void {
@@ -34,14 +46,16 @@ export class CanvasComponent implements OnInit {
     }
   }
 
-  drawRect(color: string, x1: number, y1: number, x2: number, y2: number): void {
+  drawRect(shape: Rectangle): void {
+    const { color, x1, y1, x2, y2 } = shape;
     if (this.ctx) {
       this.ctx.fillStyle = color;
       this.ctx.fillRect(x1, y1, x2, y2);
     }
   }
 
-  drawCircle(color: string, x: number, y: number, radius: number): void {
+  drawCircle(shape: Circle): void {
+    const { color, x, y, radius } = shape;
     if (this.ctx) {
       this.ctx.fillStyle = color;
       this.ctx.beginPath();
