@@ -18,6 +18,7 @@ export class CanvasComponent implements OnInit {
       if (ctx) {
         this.ctx = ctx;
         this.drawRect('black', 100, 100, 200, 200);
+        this.drawCircle('brown', 250, 250, 100);
       }
     }
   }
@@ -26,6 +27,15 @@ export class CanvasComponent implements OnInit {
     if (this.ctx) {
       this.ctx.fillStyle = color;
       this.ctx.fillRect(x1, y1, x2, y2);
+    }
+  }
+
+  drawCircle(color: string, x: number, y: number, radius: number): void {
+    if (this.ctx) {
+      this.ctx.fillStyle = color;
+      this.ctx.beginPath();
+      this.ctx.arc(x, y, radius, 0, 2 * Math.PI);
+      this.ctx.fill();
     }
   }
 }
