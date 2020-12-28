@@ -47,10 +47,10 @@ export class CanvasComponent implements OnInit {
   }
 
   drawRect(shape: Rectangle): void {
-    const { color, x1, y1, x2, y2 } = shape;
+    const { color, x, y, width, height } = shape;
     if (this.ctx) {
       this.ctx.fillStyle = color;
-      this.ctx.fillRect(x1, y1, x2, y2);
+      this.ctx.fillRect(x, y, width, height);
     }
   }
 

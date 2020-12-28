@@ -8,17 +8,37 @@ import { Scene, Shape } from '../types';
 export class SceneService {
   private sceneState: Scene = [];
   private scene$: BehaviorSubject<Scene> = new BehaviorSubject<Scene>(this.sceneState);
+  private shapeCounter = 0;
 
   constructor() {
     setTimeout(() => {
-      this.addShape({ type: 'Rectangle', color: 'black', x1: 100, y1: 100, x2: 200, y2: 200 });
-
-      this.addShape({ type: 'Circle', color: 'brown', x: 300, y: 200, radius: 50 });
+      this.addRect('black', 100, 100, 200, 200);
+    }, 250);
+    setTimeout(() => {
+      this.addCircle('brown', 300, 200, 50);
     }, 500);
+    setTimeout(() => {
+      this.addRect('green', 125, 50, 25, 400);
+    }, 750);
   }
 
-  addShape(shape: Shape): void {
+  addRect(color: string, x: number, y: number, width: number, height: number): void {
+    this.addShapeToScene({ color, x, y, width, height, type: 'Rectangle', id: this.shapeCounter });
+    this.shapeCounter += 1;
+  }
+
+  addCircle(color: string, x: number, y: number, radius: number): void {
+    this.addShapeToScene({ color, x, y, radius, type: 'Circle', id: this.shapeCounter });
+    this.shapeCounter += 1;
+  }
+
+  addShapeToScene(shape: Shape): void {
     this.sceneState = [...this.sceneState, shape];
+    this.scene$.next(this.sceneState);
+  }
+
+  removeShapeById(id: number): void {
+    this.sceneState = this.sceneState.filter((shape) => shape.id !== id);
     this.scene$.next(this.sceneState);
   }
 

@@ -1,20 +1,22 @@
 export type Rectangle = {
   type: 'Rectangle';
+  id: number;
   color: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
   selected?: boolean;
-  x1: number;
-  x2: number;
-  y1: number;
-  y2: number;
 };
 
 export type Circle = {
   type: 'Circle';
+  id: number;
   color: string;
-  selected?: boolean;
   x: number;
   y: number;
   radius: number;
+  selected?: boolean;
 };
 
 export type Shape = Rectangle | Circle;
