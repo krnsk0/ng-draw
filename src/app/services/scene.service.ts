@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { Scene, Shape } from '../types';
+import { Scene, Shape, Rectangle, Circle } from '../shape';
 
 @Injectable({
   providedIn: 'root',
@@ -8,28 +8,17 @@ import { Scene, Shape } from '../types';
 export class SceneService {
   private sceneState: Scene = [];
   private scene$: BehaviorSubject<Scene> = new BehaviorSubject<Scene>(this.sceneState);
-  private shapeCounter = 0;
 
   constructor() {
     setTimeout(() => {
-      this.addRect('black', 100, 100, 200, 200);
+      this.addShapeToScene(new Rectangle('black', 100, 100, 200, 200));
     }, 250);
     setTimeout(() => {
-      this.addCircle('brown', 300, 200, 50);
+      this.addShapeToScene(new Circle('brown', 300, 200, 50));
     }, 500);
     setTimeout(() => {
-      this.addRect('green', 125, 50, 25, 400);
+      this.addShapeToScene(new Rectangle('green', 125, 50, 25, 400));
     }, 750);
-  }
-
-  addRect(color: string, x: number, y: number, width: number, height: number): void {
-    this.addShapeToScene({ color, x, y, width, height, type: 'Rectangle', id: this.shapeCounter });
-    this.shapeCounter += 1;
-  }
-
-  addCircle(color: string, x: number, y: number, radius: number): void {
-    this.addShapeToScene({ color, x, y, radius, type: 'Circle', id: this.shapeCounter });
-    this.shapeCounter += 1;
   }
 
   addShapeToScene(shape: Shape): void {
@@ -37,7 +26,7 @@ export class SceneService {
     this.scene$.next(this.sceneState);
   }
 
-  removeShapeById(id: number): void {
+  removeShapeById(id: string): void {
     this.sceneState = this.sceneState.filter((shape) => shape.id !== id);
     this.scene$.next(this.sceneState);
   }

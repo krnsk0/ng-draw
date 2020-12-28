@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SceneService } from '../services/scene.service';
-import { Scene, Shape, Rectangle, Circle } from '../types';
+import { Scene, Shape, Rectangle, Circle } from '../shape';
 
 @Component({
   selector: 'app-canvas',
@@ -29,12 +29,10 @@ export class CanvasComponent implements OnInit {
 
   updateScene(scene: Scene): void {
     this.clear();
+
     scene.forEach((shape: Shape) => {
-      if (shape.type === 'Rectangle') {
-        this.drawRect(shape);
-      }
-      if (shape.type === 'Circle') {
-        this.drawCircle(shape);
+      if (this.ctx) {
+        shape.draw(this.ctx);
       }
     });
   }
@@ -43,24 +41,6 @@ export class CanvasComponent implements OnInit {
     if (this.ctx) {
       this.ctx.fillStyle = 'white';
       this.ctx.fillRect(0, 0, this.width, this.height);
-    }
-  }
-
-  drawRect(shape: Rectangle): void {
-    const { color, x, y, width, height } = shape;
-    if (this.ctx) {
-      this.ctx.fillStyle = color;
-      this.ctx.fillRect(x, y, width, height);
-    }
-  }
-
-  drawCircle(shape: Circle): void {
-    const { color, x, y, radius } = shape;
-    if (this.ctx) {
-      this.ctx.fillStyle = color;
-      this.ctx.beginPath();
-      this.ctx.arc(x, y, radius, 0, 2 * Math.PI);
-      this.ctx.fill();
     }
   }
 
