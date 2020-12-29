@@ -9,3 +9,8 @@
   padding: 0.25em;
   background: none;
 }
+
+/* a big a11y no-no */
+.tool-button:focus {
+  outline: 0;
+}

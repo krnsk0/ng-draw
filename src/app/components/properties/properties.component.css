@@ -18,6 +18,11 @@
   background: none;
 }
 
+/* a big a11y no-no */
+.delete-button:focus {
+  outline: 0;
+}
+
 .row {
   margin: 0 1em 0.25em 1em;
   display: flex;
