@@ -1,5 +1,5 @@
-<div>
-  <div *ngFor="let tool of tools" class="tool-button" (click)="clickHandler(tool)">
+<div class="tool-container">
+  <button *ngFor="let tool of tools" class="tool-button" (click)="clickHandler(tool)">
     {{ tool }}
-  </div>
+  </button>
 </div>
