@@ -22,15 +22,16 @@ export class CanvasComponent implements OnInit {
       if (ctx) this.ctx = ctx;
     }
 
-    this.sceneService.getSceneObservable().subscribe((nextScene) => {
+    this.sceneService.scene$.subscribe((nextScene) => {
       this.updateScene(nextScene);
     });
   }
 
   updateScene(scene: Scene): void {
+    // clean slate
     this.clear();
 
-    // draw selected hapes
+    // draw stuff
     scene.forEach((shape: Shape) => {
       if (this.ctx) {
         shape.drawHoverHalo(this.ctx);

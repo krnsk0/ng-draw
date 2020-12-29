@@ -2,26 +2,24 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Scene, Shape, Rectangle, Circle } from '../shapes';
 
+/**
+ * This class is... too big.
+ *
+ * How can it be subdivided in a way that makes sense?
+ *
+ * Do we need a scene service, and another service that
+ * contains a little state machine for the mouse and?
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class SceneService {
   private sceneState: Scene = [];
-  private scene$: BehaviorSubject<Scene> = new BehaviorSubject<Scene>(this.sceneState);
+  public readonly scene$: BehaviorSubject<Scene> = new BehaviorSubject<Scene>(this.sceneState);
   private lShift = false;
   private rShift = false;
 
   constructor() {
-    setTimeout(() => {
-      this.addShapeToScene(new Rectangle('black', 100, 100, 200, 200));
-    }, 100);
-    setTimeout(() => {
-      this.addShapeToScene(new Circle('brown', 300, 200, 50));
-    }, 200);
-    setTimeout(() => {
-      this.addShapeToScene(new Rectangle('green', 125, 50, 25, 400));
-    }, 300);
-
     // set up shift key listeners
     document.addEventListener('keydown', (e) => {
       if (e.code === 'ShiftLeft') this.lShift = true;
@@ -35,20 +33,33 @@ export class SceneService {
     document.addEventListener('keyup', (e) => {
       if (e.code === 'ShiftRight') this.rShift = false;
     });
+
+    // this just helps with testing.
+    setTimeout(() => {
+      this.addShapeToScene(new Rectangle('black', 100, 100, 200, 200));
+    }, 100);
+    setTimeout(() => {
+      this.addShapeToScene(new Circle('brown', 300, 200, 50));
+    }, 200);
+    setTimeout(() => {
+      this.addShapeToScene(new Rectangle('green', 125, 50, 25, 400));
+    }, 300);
   }
 
   addShapeToScene(shape: Shape): void {
+    // first we update our state snapshot
     this.sceneState = [...this.sceneState, shape];
+
+    // then we push the state snapshot into the observable
     this.scene$.next(this.sceneState);
   }
 
   removeShapeById(id: string): void {
+    // update state snapshot
     this.sceneState = this.sceneState.filter((shape) => shape.id !== id);
-    this.scene$.next(this.sceneState);
-  }
 
-  getSceneObservable(): BehaviorSubject<Scene> {
-    return this.scene$;
+    // push to observable
+    this.scene$.next(this.sceneState);
   }
 
   findTopmostShapeUnderCursor(x: number, y: number): Shape | null {

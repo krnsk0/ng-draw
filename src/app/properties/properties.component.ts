@@ -9,14 +9,11 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./properties.component.css'],
 })
 export class PropertiesComponent implements OnInit {
-  private scene$: BehaviorSubject<Scene>;
   private scene: Scene = [];
-  constructor(private sceneService: SceneService) {
-    this.scene$ = this.sceneService.getSceneObservable();
-  }
+  constructor(private sceneService: SceneService) {}
 
   ngOnInit(): void {
-    this.scene$.subscribe((nextScene) => {
+    this.sceneService.scene$.subscribe((nextScene) => {
       this.scene = nextScene;
     });
   }

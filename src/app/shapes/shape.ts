@@ -1,11 +1,14 @@
 import { v4 as uuidv4 } from 'uuid';
 
 export abstract class Shape {
-  readonly id: string;
-  readonly type: string;
+  public readonly id: string;
+  public readonly type: string;
+
+  // do we need getters/setters here?
+  // probably not
   public selected = false;
   public hovered = false;
-  color: string;
+  public color: string;
 
   constructor(type: string, color: string) {
     this.id = uuidv4();
