@@ -62,7 +62,6 @@ export class SceneService {
   }
 
   hover(x: number, y: number): void {
-    console.log(`hover ${x} ${y}`);
     // what's the shape under the cursor?
     const shape = this.findTopmostShapeUnderCursor(x, y);
 
