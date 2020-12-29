@@ -8,6 +8,8 @@ import { Scene, Shape, Rectangle, Circle } from '../shapes';
 export class SceneService {
   private sceneState: Scene = [];
   private scene$: BehaviorSubject<Scene> = new BehaviorSubject<Scene>(this.sceneState);
+  private lShift = false;
+  private rShift = false;
 
   constructor() {
     setTimeout(() => {
@@ -19,6 +21,20 @@ export class SceneService {
     setTimeout(() => {
       this.addShapeToScene(new Rectangle('green', 125, 50, 25, 400));
     }, 300);
+
+    // set up shift key listeners
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'ShiftLeft') this.lShift = true;
+    });
+    document.addEventListener('keyup', (e) => {
+      if (e.code === 'ShiftLeft') this.lShift = false;
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'ShiftRight') this.rShift = true;
+    });
+    document.addEventListener('keyup', (e) => {
+      if (e.code === 'ShiftRight') this.rShift = false;
+    });
   }
 
   addShapeToScene(shape: Shape): void {
@@ -45,10 +61,14 @@ export class SceneService {
     // what's the shape under the cursor?
     const shape = this.findTopmostShapeUnderCursor(x, y);
 
-    // deselect all shapes
-    this.sceneState.forEach((currentShape) => {
-      currentShape.selected = false;
-    });
+    // deselect all shapes if:
+    // * shift is not pressed
+    // * the user clicked on the background
+    if ((!this.lShift && !this.rShift) || !shape) {
+      this.sceneState.forEach((currentShape) => {
+        currentShape.selected = false;
+      });
+    }
 
     // toggle shape selection
     if (shape) {
