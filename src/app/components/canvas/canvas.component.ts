@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { SceneService } from '../services/scene.service';
-import { Scene, Shape } from '../shapes';
+import { SceneService } from '../../services/scene.service';
+import { Scene, Shape } from '../../shapes';
 
 @Component({
   selector: 'app-canvas',

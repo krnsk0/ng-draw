@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SceneService } from '../services/scene.service';
-import { Scene, Shape, Circle, Rectangle } from '../shapes';
+import { SceneService } from '../../services/scene.service';
+import { Scene, Shape, Circle, Rectangle } from '../../shapes';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({

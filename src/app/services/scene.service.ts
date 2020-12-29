@@ -21,6 +21,9 @@ export class SceneService {
 
   constructor() {
     // set up shift key listeners
+    // is the constructor the right place to be doing this?
+    // probably not
+    // also we never unsubscribe these...
     document.addEventListener('keydown', (e) => {
       if (e.code === 'ShiftLeft') this.lShift = true;
     });
