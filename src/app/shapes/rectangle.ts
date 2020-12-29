@@ -12,7 +12,7 @@ export class Rectangle extends Shape {
   }
 
   drawHoverHalo(ctx: CanvasRenderingContext2D): void {
-    if (this.selected) {
+    if (this.hovered) {
       const { x, y, width, height } = this;
       ctx.fillStyle = hoverHaloColor;
       ctx.fillRect(

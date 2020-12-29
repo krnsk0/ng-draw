@@ -60,4 +60,23 @@ export class SceneService {
     // push a scene update
     this.scene$.next(this.sceneState);
   }
+
+  hover(x: number, y: number): void {
+    console.log(`hover ${x} ${y}`);
+    // what's the shape under the cursor?
+    const shape = this.findTopmostShapeUnderCursor(x, y);
+
+    // deselect all shapes
+    this.sceneState.forEach((currentShape) => {
+      currentShape.hovered = false;
+    });
+
+    // select hovered shape, if any
+    if (shape) {
+      shape.hovered = true;
+    }
+
+    // push a scene update
+    this.scene$.next(this.sceneState);
+  }
 }

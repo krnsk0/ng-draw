@@ -1,3 +1,9 @@
 <div class="app-canvas">
-  <canvas #canvas [width]="width" [height]="height" (click)="handleClick($event)"></canvas>
+  <canvas
+    #canvas
+    [width]="width"
+    [height]="height"
+    (click)="handleClick($event)"
+    (mousemove)="handleHover($event)"
+  ></canvas>
 </div>

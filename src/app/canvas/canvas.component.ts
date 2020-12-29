@@ -34,6 +34,7 @@ export class CanvasComponent implements OnInit {
     scene.forEach((shape: Shape) => {
       if (this.ctx) {
         shape.drawSelectionHalo(this.ctx);
+        shape.drawHoverHalo(this.ctx);
         shape.draw(this.ctx);
       }
     });
@@ -52,6 +53,15 @@ export class CanvasComponent implements OnInit {
       const x = event.clientX - domRect.x;
       const y = event.clientY - domRect.y;
       this.sceneService.selectClick(x, y);
+    }
+  }
+
+  handleHover(event: MouseEvent): void {
+    if (this.canvasRef) {
+      const domRect = this.canvasRef.nativeElement.getBoundingClientRect();
+      const x = event.clientX - domRect.x;
+      const y = event.clientY - domRect.y;
+      this.sceneService.hover(x, y);
     }
   }
 }

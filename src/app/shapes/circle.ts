@@ -6,7 +6,7 @@ export class Circle extends Shape {
   }
 
   drawHoverHalo(ctx: CanvasRenderingContext2D): void {
-    if (this.selected) {
+    if (this.hovered) {
       const { x, y, radius } = this;
       ctx.fillStyle = hoverHaloColor;
       ctx.beginPath();
