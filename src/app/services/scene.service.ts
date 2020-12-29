@@ -45,16 +45,14 @@ export class SceneService {
     // what's the shape under the cursor?
     const shape = this.findTopmostShapeUnderCursor(x, y);
 
+    // deselect all shapes
+    this.sceneState.forEach((currentShape) => {
+      currentShape.selected = false;
+    });
+
     // toggle shape selection
     if (shape) {
       shape.selected = !shape.selected;
-    }
-
-    // deselect all shapes
-    if (!shape) {
-      this.sceneState.forEach((currentShape) => {
-        currentShape.selected = false;
-      });
     }
 
     // push a scene update
