@@ -8,8 +8,11 @@
     (mouseup)="handleMouseup($event)"
   ></canvas>
 </div>
-<div class="message">
+<div>
   <div>hold `shift` to select multiple shapes</div>
-  <div>clickState: {{ toolsService.clickState }}</div>
-  <div>shiftState: {{ toolsService.lShift || toolsService.rShift }}</div>
+  <div class="debug">
+    <div>lastMouseCoords: {{ toolsService.lastMouseCoords }}</div>
+    <div>clickState: {{ toolsService.clickState }}</div>
+    <div>shiftState: {{ toolsService.lShift || toolsService.rShift }}</div>
+  </div>
 </div>

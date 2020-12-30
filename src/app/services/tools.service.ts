@@ -15,6 +15,9 @@ export class ToolsService {
   // is mouse down?
   public clickState = false;
 
+  // last seen mouse position
+  public lastMouseCoords: [number, number] | false = false;
+
   constructor() {
     // set up shift key listeners
     // is the constructor the right place to be doing this?

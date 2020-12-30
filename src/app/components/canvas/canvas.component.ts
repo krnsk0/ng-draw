@@ -60,19 +60,28 @@ export class CanvasComponent implements OnInit {
   }
 
   handleMousedown(event: MouseEvent): void {
-    this.toolsService.clickState = true;
     const coords = this.calculateRelativeCoords(event);
-    if (coords) this.sceneService.canvasMousedown(...coords);
+    this.toolsService.clickState = true;
+    if (coords) {
+      this.toolsService.lastMouseCoords = coords;
+      this.sceneService.canvasMousedown(...coords);
+    }
   }
 
   handleMove(event: MouseEvent): void {
     const coords = this.calculateRelativeCoords(event);
-    if (coords) this.sceneService.canvasMove(...coords);
+    if (coords) {
+      this.toolsService.lastMouseCoords = coords;
+      this.sceneService.canvasMove(...coords);
+    }
   }
 
   handleMouseup(event: MouseEvent): void {
-    this.toolsService.clickState = false;
     const coords = this.calculateRelativeCoords(event);
-    if (coords) this.sceneService.canvasMouseup(...coords);
+    this.toolsService.clickState = false;
+    if (coords) {
+      this.toolsService.lastMouseCoords = coords;
+      this.sceneService.canvasMouseup(...coords);
+    }
   }
 }

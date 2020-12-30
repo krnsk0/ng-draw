@@ -1,5 +1,7 @@
 .app-canvas {
   border: 1px solid black;
 }
-.message {
+
+.debug {
+  color: grey;
 }
