@@ -2,24 +2,24 @@
   <button
     type="button"
     class="tool-button"
-    (click)="sceneService.toolClickHandler('select')"
-    [style.background]="sceneService.selectedTool === 'select' ? 'lightblue' : 'white'"
+    (click)="toolsService.toolClickHandler('select')"
+    [style.background]="toolsService.selectedTool === 'select' ? 'lightblue' : 'white'"
   >
     Select
   </button>
   <button
     type="button"
     class="tool-button"
-    (click)="sceneService.toolClickHandler('rectangle')"
-    [style.background]="sceneService.selectedTool === 'rectangle' ? 'lightblue' : 'white'"
+    (click)="toolsService.toolClickHandler('rectangle')"
+    [style.background]="toolsService.selectedTool === 'rectangle' ? 'lightblue' : 'white'"
   >
     Rectangle
   </button>
   <button
     type="button"
     class="tool-button"
-    (click)="sceneService.toolClickHandler('circle')"
-    [style.background]="sceneService.selectedTool === 'circle' ? 'lightblue' : 'white'"
+    (click)="toolsService.toolClickHandler('circle')"
+    [style.background]="toolsService.selectedTool === 'circle' ? 'lightblue' : 'white'"
   >
     Circle
   </button>

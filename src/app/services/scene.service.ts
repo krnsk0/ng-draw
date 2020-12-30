@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { ToolsService } from './tools.service';
+
 import { Scene, Shape, Rectangle, Circle } from '../shapes';
-import { tools } from '../types';
 
 @Injectable({
   providedIn: 'root',
@@ -9,28 +10,8 @@ import { tools } from '../types';
 export class SceneService {
   private sceneState: Scene = [];
   public readonly scene$: BehaviorSubject<Scene> = new BehaviorSubject<Scene>(this.sceneState);
-  private lShift = false;
-  private rShift = false;
-  public selectedTool: tools = 'select';
 
-  constructor() {
-    // set up shift key listeners
-    // is the constructor the right place to be doing this?
-    // probably not
-    // also we never unsubscribe these...
-    document.addEventListener('keydown', (e) => {
-      if (e.code === 'ShiftLeft') this.lShift = true;
-    });
-    document.addEventListener('keyup', (e) => {
-      if (e.code === 'ShiftLeft') this.lShift = false;
-    });
-    document.addEventListener('keydown', (e) => {
-      if (e.code === 'ShiftRight') this.rShift = true;
-    });
-    document.addEventListener('keyup', (e) => {
-      if (e.code === 'ShiftRight') this.rShift = false;
-    });
-
+  constructor(private toolsService: ToolsService) {
     // this just helps with testing.
     setTimeout(() => {
       this.addShapeToScene(new Rectangle('black', 100, 100, 200, 200));
@@ -66,7 +47,7 @@ export class SceneService {
     // deselect all shapes if:
     // * shift is not pressed
     // * the user clicked on the background
-    if ((!this.lShift && !this.rShift) || !shape) {
+    if ((!this.toolsService.lShift && !this.toolsService.rShift) || !shape) {
       this.sceneState.forEach((currentShape) => {
         currentShape.selected = false;
       });
@@ -97,9 +78,5 @@ export class SceneService {
 
     // push a scene update
     this.scene$.next(this.sceneState);
-  }
-
-  toolClickHandler(toolName: tools): void {
-    this.selectedTool = toolName;
   }
 }
