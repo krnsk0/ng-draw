@@ -8,10 +8,6 @@ export class ToolsService {
   // what tool is currenetly selected?
   public selectedTool: tools = 'select';
 
-  // when a shape is selected, how many times has the user
-  // clicked the canvas to create a shape?
-  public shapeClickCount: 0 | 1 | 2 = 0;
-
   // is either shift key depresssed?
   public lShift = false;
   public rShift = false;

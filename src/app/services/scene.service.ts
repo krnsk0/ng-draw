@@ -62,6 +62,16 @@ export class SceneService {
     this.scene$.next(this.sceneState);
   }
 
+  circleClick(x: number, y: number): void {}
+
+  rectangleClick(x: number, y: number): void {}
+
+  canvasClick(x: number, y: number): void {
+    if (this.toolsService.selectedTool === 'select') this.selectClick(x, y);
+    if (this.toolsService.selectedTool === 'circle') this.circleClick(x, y);
+    if (this.toolsService.selectedTool === 'rectangle') this.rectangleClick(x, y);
+  }
+
   hover(x: number, y: number): void {
     // what's the shape under the cursor?
     const shape = this.findTopmostShapeUnderCursor(x, y);

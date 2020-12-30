@@ -53,7 +53,7 @@ export class CanvasComponent implements OnInit {
       const domRect = this.canvasRef.nativeElement.getBoundingClientRect();
       const x = event.clientX - domRect.x;
       const y = event.clientY - domRect.y;
-      this.sceneService.selectClick(x, y);
+      this.sceneService.canvasClick(x, y);
     }
   }
 
