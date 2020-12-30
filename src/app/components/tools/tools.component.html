@@ -1,5 +1,26 @@
 <div class="tool-container">
-  <button type="button" *ngFor="let tool of tools" class="tool-button" (click)="clickHandler(tool)">
-    {{ tool }}
+  <button
+    type="button"
+    class="tool-button"
+    (click)="sceneService.toolClickHandler('select')"
+    [style.background]="sceneService.selectedTool === 'select' ? 'lightblue' : 'white'"
+  >
+    Select
+  </button>
+  <button
+    type="button"
+    class="tool-button"
+    (click)="sceneService.toolClickHandler('rectangle')"
+    [style.background]="sceneService.selectedTool === 'rectangle' ? 'lightblue' : 'white'"
+  >
+    Rectangle
+  </button>
+  <button
+    type="button"
+    class="tool-button"
+    (click)="sceneService.toolClickHandler('circle')"
+    [style.background]="sceneService.selectedTool === 'circle' ? 'lightblue' : 'white'"
+  >
+    Circle
   </button>
 </div>

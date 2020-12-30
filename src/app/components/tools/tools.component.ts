@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SceneService } from '../../services/scene.service';
 
 @Component({
   selector: 'app-tools',
@@ -6,13 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tools.component.css'],
 })
 export class ToolsComponent implements OnInit {
-  tools: Array<string> = ['Circle', 'Rectangle'];
-
-  constructor() {}
+  constructor(public sceneService: SceneService) {}
 
   ngOnInit(): void {}
-
-  clickHandler(toolName: string): void {
-    console.log(`${toolName} clicked`);
-  }
 }

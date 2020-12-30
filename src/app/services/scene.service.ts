@@ -1,15 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Scene, Shape, Rectangle, Circle } from '../shapes';
+import { tools } from '../types';
 
-/**
- * This class is... too big.
- *
- * How can it be subdivided in a way that makes sense?
- *
- * Do we need a scene service, and another service that
- * contains a little state machine for the mouse and?
- */
 @Injectable({
   providedIn: 'root',
 })
@@ -18,6 +11,7 @@ export class SceneService {
   public readonly scene$: BehaviorSubject<Scene> = new BehaviorSubject<Scene>(this.sceneState);
   private lShift = false;
   private rShift = false;
+  private selectedTool: tools = 'select';
 
   constructor() {
     // set up shift key listeners
@@ -109,5 +103,9 @@ export class SceneService {
 
     // push a scene update
     this.scene$.next(this.sceneState);
+  }
+
+  toolClickHandler(toolName: tools): void {
+    this.selectedTool = toolName;
   }
 }
