@@ -35,7 +35,7 @@ export class ToolsService {
     });
   }
 
-  toolClickHandler(toolName: tools): void {
+  selectTool(toolName: tools): void {
     this.selectedTool = toolName;
   }
 }
