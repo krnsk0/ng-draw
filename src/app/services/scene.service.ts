@@ -11,7 +11,7 @@ export class SceneService {
   public readonly scene$: BehaviorSubject<Scene> = new BehaviorSubject<Scene>(this.sceneState);
   private lShift = false;
   private rShift = false;
-  private selectedTool: tools = 'select';
+  public selectedTool: tools = 'select';
 
   constructor() {
     // set up shift key listeners
