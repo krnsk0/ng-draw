@@ -11,6 +11,11 @@ export class Rectangle extends Shape {
     super('Rectangle', color);
   }
 
+  move(dx: number, dy: number): void {
+    this.x += dx;
+    this.y += dy;
+  }
+
   drawHoverHalo(ctx: CanvasRenderingContext2D): void {
     if (this.hovered) {
       const { x, y, width, height } = this;

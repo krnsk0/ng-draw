@@ -20,6 +20,7 @@ export abstract class Shape {
   abstract drawSelectionHalo(ctx: CanvasRenderingContext2D): void;
   abstract draw(ctx: CanvasRenderingContext2D): void;
   abstract isPointInShape(x: number, y: number): boolean;
+  abstract move(dx: number, dy: number): void;
 }
 
 export type Scene = Shape[];

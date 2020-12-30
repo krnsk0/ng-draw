@@ -5,6 +5,11 @@ export class Circle extends Shape {
     super('Circle', color);
   }
 
+  move(dx: number, dy: number): void {
+    this.x += dx;
+    this.y += dy;
+  }
+
   drawHoverHalo(ctx: CanvasRenderingContext2D): void {
     if (this.hovered) {
       const { x, y, radius } = this;

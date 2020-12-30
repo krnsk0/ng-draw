@@ -62,6 +62,40 @@ export class SceneService {
     this.scene$.next(this.sceneState);
   }
 
+  selectHover(x: number, y: number): void {
+    // what's the shape under the cursor?
+    const shape = this.findTopmostShapeUnderCursor(x, y);
+
+    // deselect all shapes
+    this.sceneState.forEach((currentShape) => {
+      currentShape.hovered = false;
+    });
+
+    // select hovered shape, if any
+    if (shape) {
+      shape.hovered = true;
+    }
+
+    // push a scene update
+    this.scene$.next(this.sceneState);
+  }
+
+  dragSelection(x: number, y: number): void {
+    if (this.toolsService.prevMouseCoords) {
+      const [prevX, prevY] = this.toolsService.prevMouseCoords;
+
+      // move selected shapes
+      this.sceneState
+        .filter((shape) => shape.selected)
+        .forEach((shape) => {
+          shape.move(x - prevX, y - prevY);
+        });
+
+      // push a scene update
+      this.scene$.next(this.sceneState);
+    }
+  }
+
   canvasMousedown(x: number, y: number): void {
     if (this.toolsService.selectedTool === 'select') this.selectClick(x, y);
     if (this.toolsService.selectedTool === 'circle') {
@@ -81,23 +115,13 @@ export class SceneService {
   }
 
   canvasMove(x: number, y: number): void {
-    // select tool and no shapes selected
+    // select tool and no mouse down
     if (this.toolsService.selectedTool === 'select' && !this.toolsService.clickState) {
-      // what's the shape under the cursor?
-      const shape = this.findTopmostShapeUnderCursor(x, y);
-
-      // deselect all shapes
-      this.sceneState.forEach((currentShape) => {
-        currentShape.hovered = false;
-      });
-
-      // select hovered shape, if any
-      if (shape) {
-        shape.hovered = true;
-      }
-
-      // push a scene update
-      this.scene$.next(this.sceneState);
+      this.selectHover(x, y);
+    }
+    // select tool and mouse down
+    if (this.toolsService.selectedTool === 'select' && this.toolsService.clickState) {
+      this.dragSelection(x, y);
     }
     if (this.toolsService.selectedTool === 'circle') {
     }
