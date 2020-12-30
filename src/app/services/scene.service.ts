@@ -44,18 +44,12 @@ export class SceneService {
   }
 
   addShapeToScene(shape: Shape): void {
-    // first we update our state snapshot
     this.sceneState = [...this.sceneState, shape];
-
-    // then we push the state snapshot into the observable
     this.scene$.next(this.sceneState);
   }
 
   removeShapeById(id: string): void {
-    // update state snapshot
     this.sceneState = this.sceneState.filter((shape) => shape.id !== id);
-
-    // push to observable
     this.scene$.next(this.sceneState);
   }
 
