@@ -63,7 +63,7 @@ export class CanvasComponent implements OnInit {
     const coords = this.calculateRelativeCoords(event);
     this.toolsService.clickState = true;
     if (coords) {
-      this.toolsService.lastMouseCoords = coords;
+      this.toolsService.setCurrentCoords(...coords);
       this.sceneService.canvasMousedown(...coords);
     }
   }
@@ -71,7 +71,7 @@ export class CanvasComponent implements OnInit {
   handleMove(event: MouseEvent): void {
     const coords = this.calculateRelativeCoords(event);
     if (coords) {
-      this.toolsService.lastMouseCoords = coords;
+      this.toolsService.setCurrentCoords(...coords);
       this.sceneService.canvasMove(...coords);
     }
   }
@@ -80,7 +80,7 @@ export class CanvasComponent implements OnInit {
     const coords = this.calculateRelativeCoords(event);
     this.toolsService.clickState = false;
     if (coords) {
-      this.toolsService.lastMouseCoords = coords;
+      this.toolsService.setCurrentCoords(...coords);
       this.sceneService.canvasMouseup(...coords);
     }
   }

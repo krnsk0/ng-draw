@@ -15,8 +15,9 @@ export class ToolsService {
   // is mouse down?
   public clickState = false;
 
-  // last seen mouse position
-  public lastMouseCoords: [number, number] | false = false;
+  // mouse positions
+  public prevMouseCoords: [number, number] | false = false;
+  public curMouseCoords: [number, number] | false = false;
 
   constructor() {
     // set up shift key listeners
@@ -39,5 +40,10 @@ export class ToolsService {
 
   selectTool(toolName: tools): void {
     this.selectedTool = toolName;
+  }
+
+  setCurrentCoords(x: number, y: number): void {
+    this.prevMouseCoords = this.curMouseCoords;
+    this.curMouseCoords = [x, y];
   }
 }
