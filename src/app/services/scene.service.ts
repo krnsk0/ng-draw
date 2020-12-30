@@ -62,31 +62,46 @@ export class SceneService {
     this.scene$.next(this.sceneState);
   }
 
-  circleClick(x: number, y: number): void {}
-
-  rectangleClick(x: number, y: number): void {}
-
-  canvasClick(x: number, y: number): void {
+  canvasMousedown(x: number, y: number): void {
     if (this.toolsService.selectedTool === 'select') this.selectClick(x, y);
-    if (this.toolsService.selectedTool === 'circle') this.circleClick(x, y);
-    if (this.toolsService.selectedTool === 'rectangle') this.rectangleClick(x, y);
+    if (this.toolsService.selectedTool === 'circle') {
+    }
+    if (this.toolsService.selectedTool === 'rectangle') {
+    }
   }
 
-  hover(x: number, y: number): void {
-    // what's the shape under the cursor?
-    const shape = this.findTopmostShapeUnderCursor(x, y);
-
-    // deselect all shapes
-    this.sceneState.forEach((currentShape) => {
-      currentShape.hovered = false;
-    });
-
-    // select hovered shape, if any
-    if (shape) {
-      shape.hovered = true;
+  canvasMouseup(x: number, y: number): void {
+    if (this.toolsService.selectedTool === 'select') {
+      // no-op
     }
+    if (this.toolsService.selectedTool === 'circle') {
+    }
+    if (this.toolsService.selectedTool === 'rectangle') {
+    }
+  }
 
-    // push a scene update
-    this.scene$.next(this.sceneState);
+  canvasMove(x: number, y: number): void {
+    // select tool and no shapes selected
+    if (this.toolsService.selectedTool === 'select' && !this.toolsService.clickState) {
+      // what's the shape under the cursor?
+      const shape = this.findTopmostShapeUnderCursor(x, y);
+
+      // deselect all shapes
+      this.sceneState.forEach((currentShape) => {
+        currentShape.hovered = false;
+      });
+
+      // select hovered shape, if any
+      if (shape) {
+        shape.hovered = true;
+      }
+
+      // push a scene update
+      this.scene$.next(this.sceneState);
+    }
+    if (this.toolsService.selectedTool === 'circle') {
+    }
+    if (this.toolsService.selectedTool === 'rectangle') {
+    }
   }
 }

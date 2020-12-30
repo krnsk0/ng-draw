@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { SceneService } from '../../services/scene.service';
+import { ToolsService } from '../../services/tools.service';
 import { Scene, Shape } from '../../shapes';
 
 @Component({
@@ -14,7 +15,7 @@ export class CanvasComponent implements OnInit {
   width = 500;
   height = 500;
 
-  constructor(private sceneService: SceneService) {}
+  constructor(private sceneService: SceneService, private toolsService: ToolsService) {}
 
   ngOnInit(): void {
     if (this.canvasRef) {
@@ -48,21 +49,34 @@ export class CanvasComponent implements OnInit {
     }
   }
 
-  handleClick(event: MouseEvent): void {
+  // repetition below is slightly annoying and bad, fix it
+
+  handleMousedown(event: MouseEvent): void {
     if (this.canvasRef) {
       const domRect = this.canvasRef.nativeElement.getBoundingClientRect();
       const x = event.clientX - domRect.x;
       const y = event.clientY - domRect.y;
-      this.sceneService.canvasClick(x, y);
+      this.toolsService.clickState = true;
+      this.sceneService.canvasMousedown(x, y);
     }
   }
 
-  handleHover(event: MouseEvent): void {
+  handleMove(event: MouseEvent): void {
     if (this.canvasRef) {
       const domRect = this.canvasRef.nativeElement.getBoundingClientRect();
       const x = event.clientX - domRect.x;
       const y = event.clientY - domRect.y;
-      this.sceneService.hover(x, y);
+      this.sceneService.canvasMove(x, y);
+    }
+  }
+
+  handleMouseup(event: MouseEvent): void {
+    if (this.canvasRef) {
+      const domRect = this.canvasRef.nativeElement.getBoundingClientRect();
+      const x = event.clientX - domRect.x;
+      const y = event.clientY - domRect.y;
+      this.toolsService.clickState = false;
+      this.sceneService.canvasMouseup(x, y);
     }
   }
 }

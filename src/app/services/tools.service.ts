@@ -12,6 +12,9 @@ export class ToolsService {
   public lShift = false;
   public rShift = false;
 
+  // is mouse down?
+  public clickState = false;
+
   constructor() {
     // set up shift key listeners
     // is the constructor the right place to be doing this?
