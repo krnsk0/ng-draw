@@ -15,7 +15,7 @@ export class CanvasComponent implements OnInit {
   width = 500;
   height = 500;
 
-  constructor(private sceneService: SceneService, private toolsService: ToolsService) {}
+  constructor(private sceneService: SceneService, public toolsService: ToolsService) {}
 
   ngOnInit(): void {
     if (this.canvasRef) {
@@ -49,34 +49,30 @@ export class CanvasComponent implements OnInit {
     }
   }
 
-  // repetition below is slightly annoying and bad, fix it
-
-  handleMousedown(event: MouseEvent): void {
+  private calculateRelativeCoords(event: MouseEvent): [number, number] | undefined {
     if (this.canvasRef) {
       const domRect = this.canvasRef.nativeElement.getBoundingClientRect();
       const x = event.clientX - domRect.x;
       const y = event.clientY - domRect.y;
-      this.toolsService.clickState = true;
-      this.sceneService.canvasMousedown(x, y);
+      return [x, y];
     }
+    return;
+  }
+
+  handleMousedown(event: MouseEvent): void {
+    this.toolsService.clickState = true;
+    const coords = this.calculateRelativeCoords(event);
+    if (coords) this.sceneService.canvasMousedown(...coords);
   }
 
   handleMove(event: MouseEvent): void {
-    if (this.canvasRef) {
-      const domRect = this.canvasRef.nativeElement.getBoundingClientRect();
-      const x = event.clientX - domRect.x;
-      const y = event.clientY - domRect.y;
-      this.sceneService.canvasMove(x, y);
-    }
+    const coords = this.calculateRelativeCoords(event);
+    if (coords) this.sceneService.canvasMove(...coords);
   }
 
   handleMouseup(event: MouseEvent): void {
-    if (this.canvasRef) {
-      const domRect = this.canvasRef.nativeElement.getBoundingClientRect();
-      const x = event.clientX - domRect.x;
-      const y = event.clientY - domRect.y;
-      this.toolsService.clickState = false;
-      this.sceneService.canvasMouseup(x, y);
-    }
+    this.toolsService.clickState = false;
+    const coords = this.calculateRelativeCoords(event);
+    if (coords) this.sceneService.canvasMouseup(...coords);
   }
 }

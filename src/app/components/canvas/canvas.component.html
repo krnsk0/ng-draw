@@ -3,11 +3,13 @@
     #canvas
     [width]="width"
     [height]="height"
-    (click)="handleMousedown($event)"
+    (mousedown)="handleMousedown($event)"
     (mousemove)="handleMove($event)"
+    (mouseup)="handleMouseup($event)"
   ></canvas>
 </div>
 <div class="message">
   <div>hold `shift` to select multiple shapes</div>
   <div>clickState: {{ toolsService.clickState }}</div>
+  <div>shiftState: {{ toolsService.lShift || toolsService.rShift }}</div>
 </div>
