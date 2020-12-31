@@ -111,23 +111,11 @@ export class SceneService {
     }
   }
 
-  setShapeProperty(id: string, property: string, $event: Event): void {
+  // clojure is cool but there's probably a more OOP way to do this
+  setShapeProperty(setterFunc: (val: number) => void, $event: Event): void {
     // wtf, how can avoid the typecast here?
-    const value = ($event.target as HTMLInputElement).value;
-    const shape = this.sceneState.find((foundShape) => foundShape.id === id);
-
-    // uughghggh this is all very bad
-    if (shape && Circle.isCircle(shape) && property === 'radius') {
-      shape.radius = +value;
-      this.scene$.next(this.sceneState);
-    }
-    if (shape && Rectangle.isRectangle(shape) && property === 'width') {
-      shape.width = +value;
-      this.scene$.next(this.sceneState);
-    }
-    if (shape && Rectangle.isRectangle(shape) && property === 'height') {
-      shape.height = +value;
-      this.scene$.next(this.sceneState);
-    }
+    const value = +($event.target as HTMLInputElement).value;
+    setterFunc(value);
+    this.scene$.next(this.sceneState);
   }
 }

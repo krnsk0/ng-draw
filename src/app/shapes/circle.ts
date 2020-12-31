@@ -54,4 +54,10 @@ export class Circle extends Shape {
     const distanceFromCenter = Math.sqrt(Math.pow(this.x - x, 2) + Math.pow(this.y - y, 2));
     return distanceFromCenter <= this.radius;
   }
+
+  setRadiusFactory(): (radius: number) => void {
+    return (radius: number) => {
+      this.radius = radius;
+    };
+  }
 }

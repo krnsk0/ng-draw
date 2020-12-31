@@ -65,4 +65,16 @@ export class Rectangle extends Shape {
   isPointInShape(x: number, y: number): boolean {
     return x >= this.x && x <= this.x + this.width && y >= this.y && y <= this.y + this.height;
   }
+
+  setWidthFactory(): (width: number) => void {
+    return (width: number) => {
+      this.width = width;
+    };
+  }
+
+  setHeightFactory(): (height: number) => void {
+    return (height: number) => {
+      this.height = height;
+    };
+  }
 }
