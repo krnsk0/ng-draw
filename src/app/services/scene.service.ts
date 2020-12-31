@@ -12,17 +12,7 @@ export class SceneService {
   private sceneState: Scene = [];
   public readonly scene$: BehaviorSubject<Scene> = new BehaviorSubject<Scene>(this.sceneState);
 
-  constructor(private toolsService: ToolsService) {
-    setTimeout(() => {
-      this.addShapeToScene(new Rectangle('black', 100, 100, 200, 200));
-    }, 100);
-    setTimeout(() => {
-      this.addShapeToScene(new Circle('brown', 300, 200, 50));
-    }, 200);
-    setTimeout(() => {
-      this.addShapeToScene(new Rectangle('green', 125, 50, 25, 400));
-    }, 300);
-  }
+  constructor(private toolsService: ToolsService) {}
 
   addShapeToScene(shape: Shape): void {
     this.sceneState = [...this.sceneState, shape];

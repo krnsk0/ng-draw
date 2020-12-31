@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { tools } from '../types';
 
 @Injectable({
   providedIn: 'root',

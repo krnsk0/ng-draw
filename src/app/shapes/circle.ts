@@ -1,5 +1,12 @@
 import { Shape } from './shape';
-import { selectionHaloColor, selectionHaloSize, hoverHaloColor, hoverHaloSize } from '../constants';
+import {
+  selectionHaloColor,
+  selectionHaloSize,
+  hoverHaloColor,
+  hoverHaloSize,
+  minCircleRadius,
+  maxCircleRadius,
+} from '../constants';
 export class Circle extends Shape {
   constructor(color: string, public x: number, public y: number, public radius: number) {
     super('Circle', color);
@@ -9,7 +16,7 @@ export class Circle extends Shape {
     const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
     const x = Math.floor(Math.random() * Math.floor(xMax));
     const y = Math.floor(Math.random() * Math.floor(yMax));
-    const radius = Math.floor(Math.random() * Math.floor(yMax / 8) + 25);
+    const radius = Math.floor(Math.random() * Math.floor(maxCircleRadius / 3)) + minCircleRadius;
     return new Circle(color, x, y, radius);
   }
 

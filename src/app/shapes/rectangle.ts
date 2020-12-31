@@ -1,5 +1,12 @@
 import { Shape } from './shape';
-import { selectionHaloColor, selectionHaloSize, hoverHaloColor, hoverHaloSize } from '../constants';
+import {
+  selectionHaloColor,
+  selectionHaloSize,
+  hoverHaloColor,
+  hoverHaloSize,
+  minRectangleSide,
+  maxRectangleSide,
+} from '../constants';
 export class Rectangle extends Shape {
   constructor(
     color: string,
@@ -15,8 +22,13 @@ export class Rectangle extends Shape {
     const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
     const x = Math.floor(Math.random() * Math.floor(xMax));
     const y = Math.floor(Math.random() * Math.floor(yMax));
-    const width = Math.floor(Math.random() * Math.floor(xMax / 4)) + 10;
-    const height = Math.floor(Math.random() * Math.floor(yMax / 4)) + 10;
+    const width =
+      Math.floor(Math.random() * Math.floor(maxRectangleSide - minRectangleSide)) +
+      minRectangleSide;
+    const height =
+      Math.floor(Math.random() * Math.floor(maxRectangleSide - minRectangleSide)) +
+      minRectangleSide;
+
     return new Rectangle(color, x, y, width, height);
   }
 

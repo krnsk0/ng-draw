@@ -22,8 +22,8 @@
         <div>radius</div>
         <input
           type="range"
-          min="1"
-          max="100"
+          [min]="minCircleRadius"
+          [max]="maxCircleRadius"
           (input)="sceneService.setShapeProperty(shape.setRadiusFactory(), $event)"
           [value]="shape.radius"
         />
@@ -42,8 +42,8 @@
         <div>width</div>
         <input
           type="range"
-          min="1"
-          max="100"
+          [min]="minRectangleSide"
+          [max]="maxRectangleSide"
           (input)="sceneService.setShapeProperty(shape.setWidthFactory(), $event)"
           [value]="shape.width"
         />
@@ -52,8 +52,8 @@
         <div>height</div>
         <input
           type="range"
-          min="1"
-          max="100"
+          [min]="minRectangleSide"
+          [max]="maxRectangleSide"
           (input)="sceneService.setShapeProperty(shape.setHeightFactory(), $event)"
           [value]="shape.height"
         />

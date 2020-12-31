@@ -2,6 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { SceneService } from '../../services/scene.service';
 import { Scene } from '../../shapes';
 import { Circle, Rectangle } from '../../shapes';
+import {
+  minRectangleSide,
+  maxRectangleSide,
+  minCircleRadius,
+  maxCircleRadius,
+} from '../../constants';
+
 @Component({
   selector: 'app-properties',
   templateUrl: './properties.component.html',
@@ -9,6 +16,13 @@ import { Circle, Rectangle } from '../../shapes';
 })
 export class PropertiesComponent implements OnInit {
   private scene: Scene = [];
+
+  // mins and maxes for consumption in template
+  minRectangleSide = minRectangleSide;
+  maxRectangleSide = maxRectangleSide;
+  minCircleRadius = minCircleRadius;
+  maxCircleRadius = maxCircleRadius;
+
   constructor(public sceneService: SceneService) {}
 
   // typeguards for template use
