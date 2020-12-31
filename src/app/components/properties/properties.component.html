@@ -20,7 +20,13 @@
       </div>
       <div class="row">
         <div>radius</div>
-        <div>{{ shape.radius }}</div>
+        <input
+          type="range"
+          min="1"
+          max="100"
+          (input)="sceneService.setShapeProperty(shape.id, 'radius', $event)"
+          [value]="shape.radius"
+        />
       </div>
     </div>
     <div *ngIf="isRectangle(shape)">
@@ -34,11 +40,23 @@
       </div>
       <div class="row">
         <div>width</div>
-        <div>{{ shape.width }}</div>
+        <input
+          type="range"
+          min="1"
+          max="100"
+          (input)="sceneService.setShapeProperty(shape.id, 'width', $event)"
+          [value]="shape.width"
+        />
       </div>
       <div class="row">
         <div>height</div>
-        <div>{{ shape.height }}</div>
+        <input
+          type="range"
+          min="1"
+          max="100"
+          (input)="sceneService.setShapeProperty(shape.id, 'height', $event)"
+          [value]="shape.height"
+        />
       </div>
     </div>
     <div class="row">

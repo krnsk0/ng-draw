@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { SceneService } from '../../services/scene.service';
-import { Scene, Shape, Circle, Rectangle } from '../../shapes';
-import { BehaviorSubject } from 'rxjs';
-
+import { Scene } from '../../shapes';
+import { Circle, Rectangle } from '../../shapes';
 @Component({
   selector: 'app-properties',
   templateUrl: './properties.component.html',
@@ -10,7 +9,11 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class PropertiesComponent implements OnInit {
   private scene: Scene = [];
-  constructor(private sceneService: SceneService) {}
+  constructor(public sceneService: SceneService) {}
+
+  // typeguards for template use
+  isCircle = Circle.isCircle;
+  isRectangle = Rectangle.isRectangle;
 
   ngOnInit(): void {
     this.sceneService.scene$.subscribe((nextScene) => {
@@ -24,15 +27,5 @@ export class PropertiesComponent implements OnInit {
 
   handleDelete(uuid: string): void {
     this.sceneService.removeShapeById(uuid);
-  }
-
-  // typeguard
-  isCircle(s: Shape): s is Circle {
-    return s instanceof Circle;
-  }
-
-  // typeguard
-  isRectangle(s: Shape): s is Rectangle {
-    return s instanceof Rectangle;
   }
 }

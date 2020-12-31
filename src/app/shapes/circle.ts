@@ -13,6 +13,10 @@ export class Circle extends Shape {
     return new Circle(color, x, y, radius);
   }
 
+  static isCircle(s: Shape): s is Circle {
+    return s instanceof Circle;
+  }
+
   move(dx: number, dy: number): void {
     this.x += dx;
     this.y += dy;

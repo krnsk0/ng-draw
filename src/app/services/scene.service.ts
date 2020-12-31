@@ -13,15 +13,15 @@ export class SceneService {
   public readonly scene$: BehaviorSubject<Scene> = new BehaviorSubject<Scene>(this.sceneState);
 
   constructor(private toolsService: ToolsService) {
-    // setTimeout(() => {
-    //   this.addShapeToScene(new Rectangle('black', 100, 100, 200, 200));
-    // }, 100);
-    // setTimeout(() => {
-    //   this.addShapeToScene(new Circle('brown', 300, 200, 50));
-    // }, 200);
-    // setTimeout(() => {
-    //   this.addShapeToScene(new Rectangle('green', 125, 50, 25, 400));
-    // }, 300);
+    setTimeout(() => {
+      this.addShapeToScene(new Rectangle('black', 100, 100, 200, 200));
+    }, 100);
+    setTimeout(() => {
+      this.addShapeToScene(new Circle('brown', 300, 200, 50));
+    }, 200);
+    setTimeout(() => {
+      this.addShapeToScene(new Rectangle('green', 125, 50, 25, 400));
+    }, 300);
   }
 
   addShapeToScene(shape: Shape): void {
@@ -108,6 +108,26 @@ export class SceneService {
     }
     if (tool === 'rectangle') {
       this.addShapeToScene(Rectangle.generateRandomShape(canvasWidth, canvasHeight));
+    }
+  }
+
+  setShapeProperty(id: string, property: string, $event: Event): void {
+    // wtf, how can avoid the typecast here?
+    const value = ($event.target as HTMLInputElement).value;
+    const shape = this.sceneState.find((foundShape) => foundShape.id === id);
+
+    // uughghggh this is all very bad
+    if (shape && Circle.isCircle(shape) && property === 'radius') {
+      shape.radius = +value;
+      this.scene$.next(this.sceneState);
+    }
+    if (shape && Rectangle.isRectangle(shape) && property === 'width') {
+      shape.width = +value;
+      this.scene$.next(this.sceneState);
+    }
+    if (shape && Rectangle.isRectangle(shape) && property === 'height') {
+      shape.height = +value;
+      this.scene$.next(this.sceneState);
     }
   }
 }

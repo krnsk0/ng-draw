@@ -20,6 +20,10 @@ export class Rectangle extends Shape {
     return new Rectangle(color, x, y, width, height);
   }
 
+  static isRectangle(s: Shape): s is Rectangle {
+    return s instanceof Rectangle;
+  }
+
   move(dx: number, dy: number): void {
     this.x += dx;
     this.y += dy;
