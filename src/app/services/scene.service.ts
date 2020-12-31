@@ -101,7 +101,7 @@ export class SceneService {
     }
   }
 
-  // clojure is cool but there's probably a more OOP way to do this
+  // closure is cool but there's probably a more OOP way to do this
   setShapeProperty(setterFunc: (val: number) => void, $event: Event): void {
     // wtf, how can avoid the typecast here?
     const value = +($event.target as HTMLInputElement).value;
