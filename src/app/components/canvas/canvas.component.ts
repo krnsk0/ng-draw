@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { canvasWidth, canvasHeight } from '../../constants';
 import { SceneService } from '../../services/scene.service';
 import { ToolsService } from '../../services/tools.service';
 import { Scene, Shape } from '../../shapes';
@@ -12,8 +13,8 @@ export class CanvasComponent implements OnInit {
   @ViewChild('canvas', { static: true })
   canvasRef: ElementRef<HTMLCanvasElement> | null = null;
   private ctx: CanvasRenderingContext2D | null = null;
-  width = 500;
-  height = 500;
+  width = canvasWidth;
+  height = canvasHeight;
 
   constructor(private sceneService: SceneService, public toolsService: ToolsService) {}
 
@@ -60,6 +61,7 @@ export class CanvasComponent implements OnInit {
   }
 
   handleMousedown(event: MouseEvent): void {
+    this.toolsService.registerClick();
     const coords = this.calculateRelativeCoords(event);
     this.toolsService.clickState = true;
     if (coords) {

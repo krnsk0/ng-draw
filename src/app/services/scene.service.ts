@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { ToolsService } from './tools.service';
+import { canvasWidth, canvasHeight } from '../constants';
 
 import { Scene, Shape, Rectangle, Circle } from '../shapes';
 
@@ -12,16 +13,15 @@ export class SceneService {
   public readonly scene$: BehaviorSubject<Scene> = new BehaviorSubject<Scene>(this.sceneState);
 
   constructor(private toolsService: ToolsService) {
-    // this just helps with testing.
-    setTimeout(() => {
-      this.addShapeToScene(new Rectangle('black', 100, 100, 200, 200));
-    }, 100);
-    setTimeout(() => {
-      this.addShapeToScene(new Circle('brown', 300, 200, 50));
-    }, 200);
-    setTimeout(() => {
-      this.addShapeToScene(new Rectangle('green', 125, 50, 25, 400));
-    }, 300);
+    // setTimeout(() => {
+    //   this.addShapeToScene(new Rectangle('black', 100, 100, 200, 200));
+    // }, 100);
+    // setTimeout(() => {
+    //   this.addShapeToScene(new Circle('brown', 300, 200, 50));
+    // }, 200);
+    // setTimeout(() => {
+    //   this.addShapeToScene(new Rectangle('green', 125, 50, 25, 400));
+    // }, 300);
   }
 
   addShapeToScene(shape: Shape): void {
@@ -40,40 +40,31 @@ export class SceneService {
     return sceneCopy.find((shape) => shape.isPointInShape(x, y)) || null;
   }
 
+  selectHover(x: number, y: number): void {
+    const shape = this.findTopmostShapeUnderCursor(x, y);
+    this.sceneState.forEach((currentShape) => {
+      currentShape.hovered = false;
+    });
+    if (shape) shape.hovered = true;
+    this.scene$.next(this.sceneState);
+  }
+
   selectClick(x: number, y: number): void {
     // what's the shape under the cursor?
     const shape = this.findTopmostShapeUnderCursor(x, y);
 
     // deselect all shapes if:
-    // * shift is not pressed
+    // * shift is not pressed, and
     // * the user clicked on the background
-    if ((!this.toolsService.lShift && !this.toolsService.rShift) || !shape) {
-      this.sceneState.forEach((currentShape) => {
-        currentShape.selected = false;
-      });
-    }
+    // if ((!this.toolsService.lShift && !this.toolsService.rShift) || !shape) {
+    //   this.sceneState.forEach((currentShape) => {
+    //     currentShape.selected = false;
+    //   });
+    // }
 
     // toggle shape selection
     if (shape) {
-      shape.selected = !shape.selected;
-    }
-
-    // push a scene update
-    this.scene$.next(this.sceneState);
-  }
-
-  selectHover(x: number, y: number): void {
-    // what's the shape under the cursor?
-    const shape = this.findTopmostShapeUnderCursor(x, y);
-
-    // deselect all shapes
-    this.sceneState.forEach((currentShape) => {
-      currentShape.hovered = false;
-    });
-
-    // select hovered shape, if any
-    if (shape) {
-      shape.hovered = true;
+      shape.selected = true;
     }
 
     // push a scene update
@@ -97,35 +88,26 @@ export class SceneService {
   }
 
   canvasMousedown(x: number, y: number): void {
-    if (this.toolsService.selectedTool === 'select') this.selectClick(x, y);
-    if (this.toolsService.selectedTool === 'circle') {
-    }
-    if (this.toolsService.selectedTool === 'rectangle') {
-    }
+    this.selectClick(x, y);
   }
 
   canvasMouseup(x: number, y: number): void {
-    if (this.toolsService.selectedTool === 'select') {
-      // no-op
-    }
-    if (this.toolsService.selectedTool === 'circle') {
-    }
-    if (this.toolsService.selectedTool === 'rectangle') {
-    }
+    this.selectClick(x, y);
   }
 
   canvasMove(x: number, y: number): void {
-    // select tool and no mouse down
-    if (this.toolsService.selectedTool === 'select' && !this.toolsService.clickState) {
+    if (!this.toolsService.clickState) {
       this.selectHover(x, y);
     }
-    // select tool and mouse down
-    if (this.toolsService.selectedTool === 'select' && this.toolsService.clickState) {
-      this.dragSelection(x, y);
+    this.dragSelection(x, y);
+  }
+
+  shapeToolClick(tool: string): void {
+    if (tool === 'circle') {
+      this.addShapeToScene(Circle.generateRandomShape(canvasWidth, canvasHeight));
     }
-    if (this.toolsService.selectedTool === 'circle') {
-    }
-    if (this.toolsService.selectedTool === 'rectangle') {
+    if (tool === 'rectangle') {
+      this.addShapeToScene(Rectangle.generateRandomShape(canvasWidth, canvasHeight));
     }
   }
 }

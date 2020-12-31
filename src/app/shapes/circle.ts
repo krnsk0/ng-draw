@@ -5,6 +5,14 @@ export class Circle extends Shape {
     super('Circle', color);
   }
 
+  static generateRandomShape(xMax: number, yMax: number): Circle {
+    const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
+    const x = Math.floor(Math.random() * Math.floor(xMax));
+    const y = Math.floor(Math.random() * Math.floor(yMax));
+    const radius = Math.floor(Math.random() * Math.floor(yMax / 8) + 25);
+    return new Circle(color, x, y, radius);
+  }
+
   move(dx: number, dy: number): void {
     this.x += dx;
     this.y += dy;

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToolsService } from '../../services/tools.service';
+import { SceneService } from '../../services/scene.service';
 
 @Component({
   selector: 'app-tools',
@@ -7,7 +8,7 @@ import { ToolsService } from '../../services/tools.service';
   styleUrls: ['./tools.component.css'],
 })
 export class ToolsComponent implements OnInit {
-  constructor(public toolsService: ToolsService) {}
+  constructor(public toolsService: ToolsService, public sceneService: SceneService) {}
 
   ngOnInit(): void {}
 }

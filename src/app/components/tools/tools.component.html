@@ -1,26 +1,8 @@
 <div class="tool-container">
-  <button
-    type="button"
-    class="tool-button"
-    (click)="toolsService.selectTool('select')"
-    [style.background]="toolsService.selectedTool === 'select' ? 'lightblue' : 'white'"
-  >
-    Select
-  </button>
-  <button
-    type="button"
-    class="tool-button"
-    (click)="toolsService.selectTool('rectangle')"
-    [style.background]="toolsService.selectedTool === 'rectangle' ? 'lightblue' : 'white'"
-  >
+  <button type="button" class="tool-button" (click)="sceneService.shapeToolClick('rectangle')">
     Rectangle
   </button>
-  <button
-    type="button"
-    class="tool-button"
-    (click)="toolsService.selectTool('circle')"
-    [style.background]="toolsService.selectedTool === 'circle' ? 'lightblue' : 'white'"
-  >
+  <button type="button" class="tool-button" (click)="sceneService.shapeToolClick('circle')">
     Circle
   </button>
 </div>

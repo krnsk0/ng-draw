@@ -5,9 +5,6 @@ import { tools } from '../types';
   providedIn: 'root',
 })
 export class ToolsService {
-  // what tool is currenetly selected?
-  public selectedTool: tools = 'select';
-
   // is either shift key depresssed?
   public lShift = false;
   public rShift = false;
@@ -18,6 +15,9 @@ export class ToolsService {
   // mouse positions
   public prevMouseCoords: [number, number] | false = false;
   public curMouseCoords: [number, number] | false = false;
+
+  // how long was mouse down
+  public mousedownTimestamp = 0;
 
   constructor() {
     // set up shift key listeners
@@ -38,12 +38,12 @@ export class ToolsService {
     });
   }
 
-  selectTool(toolName: tools): void {
-    this.selectedTool = toolName;
-  }
-
   setCurrentCoords(x: number, y: number): void {
     this.prevMouseCoords = this.curMouseCoords;
     this.curMouseCoords = [x, y];
+  }
+
+  registerClick(): void {
+    this.mousedownTimestamp = Date.now();
   }
 }
