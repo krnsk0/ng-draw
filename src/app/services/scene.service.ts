@@ -76,8 +76,8 @@ export class SceneService {
   canvasMousedown(x: number, y: number): void {
     const shape = this.findTopmostShapeUnderCursor(x, y);
 
-    // deselects previous selection when click is on
-    // an unselected shape (w/out shift)
+    // deselects previous selection when user's click
+    // is on an unselected shape (w/out shift)
     if (shape && !shape.selected && !this.toolsService.shift()) {
       this.deselectAllShapes();
     }
