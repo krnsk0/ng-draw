@@ -18,11 +18,6 @@ export class SceneService {
     this.scene$.next(this.sceneState);
   }
 
-  addShapeToScene(shape: Shape): void {
-    this.sceneState = [...this.sceneState, shape];
-    this.pushSceneUpdate();
-  }
-
   removeShapeById(id: string): void {
     this.sceneState = this.sceneState.filter((shape) => shape.id !== id);
     this.pushSceneUpdate();
@@ -50,10 +45,15 @@ export class SceneService {
 
   shapeToolClick(tool: string): void {
     if (tool === 'circle') {
-      this.addShapeToScene(Circle.generateRandomShape(canvasWidth, canvasHeight));
+      this.sceneState = [...this.sceneState, Circle.generateRandomShape(canvasWidth, canvasHeight)];
+      this.pushSceneUpdate();
     }
     if (tool === 'rectangle') {
-      this.addShapeToScene(Rectangle.generateRandomShape(canvasWidth, canvasHeight));
+      this.sceneState = [
+        ...this.sceneState,
+        Rectangle.generateRandomShape(canvasWidth, canvasHeight),
+      ];
+      this.pushSceneUpdate();
     }
   }
 
@@ -61,7 +61,7 @@ export class SceneService {
     // wtf, how can avoid the typecast here?
     const value = +($event.target as HTMLInputElement).value;
     setterFunc(value);
-    this.scene$.next(this.sceneState);
+    this.pushSceneUpdate();
   }
 
   dragSelection(x: number, y: number): void {
@@ -94,7 +94,7 @@ export class SceneService {
       this.deselectAllShapes();
     }
 
-    this.scene$.next(this.sceneState);
+    this.pushSceneUpdate();
   }
 
   canvasMouseup(x: number, y: number): void {
@@ -109,6 +109,6 @@ export class SceneService {
       this.dragSelection(x, y);
     }
 
-    this.scene$.next(this.sceneState);
+    this.pushSceneUpdate();
   }
 }
