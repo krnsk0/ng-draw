@@ -14,14 +14,18 @@ export class SceneService {
 
   constructor(private toolsService: ToolsService) {}
 
+  pushSceneUpdate(): void {
+    this.scene$.next(this.sceneState);
+  }
+
   addShapeToScene(shape: Shape): void {
     this.sceneState = [...this.sceneState, shape];
-    this.scene$.next(this.sceneState);
+    this.pushSceneUpdate();
   }
 
   removeShapeById(id: string): void {
     this.sceneState = this.sceneState.filter((shape) => shape.id !== id);
-    this.scene$.next(this.sceneState);
+    this.pushSceneUpdate();
   }
 
   findTopmostShapeUnderCursor(x: number, y: number): Shape | null {
