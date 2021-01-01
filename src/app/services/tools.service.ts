@@ -45,4 +45,8 @@ export class ToolsService {
   registerClick(): void {
     this.mousedownTimestamp = Date.now();
   }
+
+  shift(): boolean {
+    return this.lShift || this.rShift;
+  }
 }

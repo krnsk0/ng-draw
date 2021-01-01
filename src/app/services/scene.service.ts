@@ -26,38 +26,37 @@ export class SceneService {
 
   findTopmostShapeUnderCursor(x: number, y: number): Shape | null {
     const sceneCopy = this.sceneState.slice();
-    sceneCopy.reverse(); // reverse to allow running Array.prototype.find() from end
+    sceneCopy.reverse();
     return sceneCopy.find((shape) => shape.isPointInShape(x, y)) || null;
   }
 
-  selectHover(x: number, y: number): void {
+  deselectAllShapes(): void {
+    this.sceneState.forEach((currentShape) => {
+      currentShape.selected = false;
+    });
+  }
+
+  hoverShape(x: number, y: number): void {
     const shape = this.findTopmostShapeUnderCursor(x, y);
     this.sceneState.forEach((currentShape) => {
       currentShape.hovered = false;
     });
     if (shape) shape.hovered = true;
-    this.scene$.next(this.sceneState);
   }
 
-  selectClick(x: number, y: number): void {
-    // what's the shape under the cursor?
-    const shape = this.findTopmostShapeUnderCursor(x, y);
-
-    // deselect all shapes if:
-    // * shift is not pressed, and
-    // * the user clicked on the background
-    // if ((!this.toolsService.lShift && !this.toolsService.rShift) || !shape) {
-    //   this.sceneState.forEach((currentShape) => {
-    //     currentShape.selected = false;
-    //   });
-    // }
-
-    // toggle shape selection
-    if (shape) {
-      shape.selected = true;
+  shapeToolClick(tool: string): void {
+    if (tool === 'circle') {
+      this.addShapeToScene(Circle.generateRandomShape(canvasWidth, canvasHeight));
     }
+    if (tool === 'rectangle') {
+      this.addShapeToScene(Rectangle.generateRandomShape(canvasWidth, canvasHeight));
+    }
+  }
 
-    // push a scene update
+  setShapeProperty(setterFunc: (val: number) => void, $event: Event): void {
+    // wtf, how can avoid the typecast here?
+    const value = +($event.target as HTMLInputElement).value;
+    setterFunc(value);
     this.scene$.next(this.sceneState);
   }
 
@@ -71,41 +70,41 @@ export class SceneService {
         .forEach((shape) => {
           shape.move(x - prevX, y - prevY);
         });
-
-      // push a scene update
-      this.scene$.next(this.sceneState);
     }
   }
 
   canvasMousedown(x: number, y: number): void {
-    this.selectClick(x, y);
+    const shape = this.findTopmostShapeUnderCursor(x, y);
+
+    // deselects previous selection when click is on
+    // an unselected shape (w/out shift)
+    if (shape && !shape.selected && !this.toolsService.shift()) {
+      this.deselectAllShapes();
+    }
+
+    if (shape) {
+      shape.selected = true;
+    }
+
+    if (!shape) {
+      this.deselectAllShapes();
+    }
+
+    this.scene$.next(this.sceneState);
   }
 
   canvasMouseup(x: number, y: number): void {
-    this.selectClick(x, y);
+    // empty, for now
   }
 
   canvasMove(x: number, y: number): void {
     if (!this.toolsService.clickState) {
-      this.selectHover(x, y);
+      this.hoverShape(x, y);
     }
-    this.dragSelection(x, y);
-  }
+    if (this.toolsService.clickState) {
+      this.dragSelection(x, y);
+    }
 
-  shapeToolClick(tool: string): void {
-    if (tool === 'circle') {
-      this.addShapeToScene(Circle.generateRandomShape(canvasWidth, canvasHeight));
-    }
-    if (tool === 'rectangle') {
-      this.addShapeToScene(Rectangle.generateRandomShape(canvasWidth, canvasHeight));
-    }
-  }
-
-  // closure is cool but there's probably a more OOP way to do this
-  setShapeProperty(setterFunc: (val: number) => void, $event: Event): void {
-    // wtf, how can avoid the typecast here?
-    const value = +($event.target as HTMLInputElement).value;
-    setterFunc(value);
     this.scene$.next(this.sceneState);
   }
 }
