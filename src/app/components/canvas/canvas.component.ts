@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { canvasWidth, canvasHeight, canvasBackgroundColor } from '../../constants';
+import { Subscription } from 'rxjs';
 import { SceneService } from '../../services/scene.service';
 import { ToolsService } from '../../services/tools.service';
 import { Scene, Shape } from '../../shapes';
@@ -14,10 +15,11 @@ import { Scene, Shape } from '../../shapes';
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.css'],
 })
-export class CanvasComponent implements OnInit {
+export class CanvasComponent implements OnInit, OnDestroy {
   @ViewChild('canvas', { static: true })
   private readonly canvasRef: ElementRef<HTMLCanvasElement> | null = null;
   private ctx: CanvasRenderingContext2D | null = null;
+  private subscription: Subscription | null = null;
   readonly width = canvasWidth;
   readonly height = canvasHeight;
 
@@ -29,9 +31,15 @@ export class CanvasComponent implements OnInit {
       if (ctx) this.ctx = ctx;
     }
 
-    this.sceneService.scene$.subscribe((nextScene) => {
+    this.subscription = this.sceneService.scene$.subscribe((nextScene) => {
       this.updateScene(nextScene);
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 
   /**
