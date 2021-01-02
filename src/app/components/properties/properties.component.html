@@ -11,15 +11,15 @@
     </div>
     <div *ngIf="isCircle(shape)">
       <div class="row">
-        <div>center x</div>
+        <label>center x</label>
         <div>{{ shape.x }}</div>
       </div>
       <div class="row">
-        <div>center y</div>
+        <label>center y</label>
         <div>{{ shape.y }}</div>
       </div>
       <div class="row">
-        <div>radius</div>
+        <label>radius</label>
         <input
           type="range"
           [min]="minCircleRadius"
@@ -39,7 +39,7 @@
         <div>{{ shape.y }}</div>
       </div>
       <div class="row">
-        <div>width</div>
+        <label>width</label>
         <input
           type="range"
           [min]="minRectangleSide"
@@ -49,7 +49,7 @@
         />
       </div>
       <div class="row">
-        <div>height</div>
+        <label>height</label>
         <input
           type="range"
           [min]="minRectangleSide"
@@ -60,8 +60,36 @@
       </div>
     </div>
     <div class="row">
-      <div>color</div>
-      <div class="color-swatch" [style.background]="shape.color"></div>
+      <label>color</label>
+      <div
+        class="color-swatch"
+        [style.background]="convertColorTripleToString(shape.hslColor)"
+        (click)="openModal()"
+      ></div>
     </div>
   </div>
+  <app-modal *ngIf="modalOpen" (overlayClick)="modalOverlayClick()">
+    <div class="modal-flex">
+      <div
+        class="color-swatch-modal"
+        [style.background]="convertColorTripleToString([100, 50, 50])"
+      ></div>
+      <div>
+        <label class="modal-label">H</label>
+        <input type="range" />
+      </div>
+      <div>
+        <label class="modal-label">S</label>
+        <input type="range" />
+      </div>
+      <div>
+        <label class="modal-label">L</label>
+        <input type="range" />
+      </div>
+      <div>
+        <button type="button" class="modal-button">cancel</button>
+        <button type="button" class="modal-button">ok</button>
+      </div>
+    </div>
+  </app-modal>
 </div>

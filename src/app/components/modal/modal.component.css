@@ -1,0 +1,22 @@
+.modal-container {
+  z-index: 1000;
+  position: absolute;
+  left: 50%;
+  top: 30%;
+}
+
+.modal-body {
+  background: #fff;
+  padding: 1em;
+}
+
+.modal-overlay {
+  z-index: 990;
+  position: fixed;
+  background-color: #444;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  opacity: 0.55;
+}

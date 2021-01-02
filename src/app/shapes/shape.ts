@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { hslTriple } from '../types';
 
 export abstract class Shape {
   public readonly id: string;
@@ -8,12 +9,17 @@ export abstract class Shape {
   // probably not
   public selected = false;
   public hovered = false;
-  public color: string;
+  public hslColor: hslTriple;
 
-  constructor(type: string, color: string) {
+  constructor(type: string, hslColor: hslTriple) {
     this.id = uuidv4();
     this.type = type;
-    this.color = color;
+    this.hslColor = hslColor;
+  }
+
+  static convertColorTripleToString(hslColor: hslTriple): string {
+    const [h, s, l] = hslColor;
+    return `hsl(${h.toString()}, ${s.toString()}%, ${l.toString()}%)`;
   }
 
   abstract drawHoverHalo(ctx: CanvasRenderingContext2D): void;

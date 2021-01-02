@@ -7,29 +7,29 @@ import {
   minRectangleSide,
   maxRectangleSide,
 } from '../constants';
+import { hslTriple } from '../types';
+
+const random = (max: number) => Math.floor(Math.random() * Math.floor(max));
+
 export class Rectangle extends Shape {
   constructor(
-    color: string,
+    hslColor: hslTriple,
     public x: number,
     public y: number,
     public width: number,
     public height: number
   ) {
-    super('Rectangle', color);
+    super('Rectangle', hslColor);
   }
 
   static generateRandomShape(xMax: number, yMax: number): Rectangle {
-    const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
-    const x = Math.floor(Math.random() * Math.floor(xMax));
-    const y = Math.floor(Math.random() * Math.floor(yMax));
-    const width =
-      Math.floor(Math.random() * Math.floor(maxRectangleSide - minRectangleSide)) +
-      minRectangleSide;
-    const height =
-      Math.floor(Math.random() * Math.floor(maxRectangleSide - minRectangleSide)) +
-      minRectangleSide;
+    const hslColor: hslTriple = [random(360), random(100), random(100)];
+    const x = random(xMax);
+    const y = random(yMax);
+    const width = random(maxRectangleSide - minRectangleSide) + minRectangleSide;
+    const height = random(maxRectangleSide - minRectangleSide) + minRectangleSide;
 
-    return new Rectangle(color, x, y, width, height);
+    return new Rectangle(hslColor, x, y, width, height);
   }
 
   static isRectangle(s: Shape): s is Rectangle {
@@ -68,9 +68,8 @@ export class Rectangle extends Shape {
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
-    const { color, x, y, width, height } = this;
-    // draw main shape
-    ctx.fillStyle = color;
+    const { hslColor, x, y, width, height } = this;
+    ctx.fillStyle = Shape.convertColorTripleToString(hslColor);
     ctx.fillRect(x, y, width, height);
   }
 

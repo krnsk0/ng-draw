@@ -7,17 +7,26 @@ import {
   minCircleRadius,
   maxCircleRadius,
 } from '../constants';
+import { hslTriple } from '../types';
+
+const random = (max: number) => Math.floor(Math.random() * Math.floor(max));
+
 export class Circle extends Shape {
-  constructor(color: string, public x: number, public y: number, public radius: number) {
-    super('Circle', color);
+  constructor(
+    hslColor: [number, number, number],
+    public x: number,
+    public y: number,
+    public radius: number
+  ) {
+    super('Circle', hslColor);
   }
 
   static generateRandomShape(xMax: number, yMax: number): Circle {
-    const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
-    const x = Math.floor(Math.random() * Math.floor(xMax));
-    const y = Math.floor(Math.random() * Math.floor(yMax));
-    const radius = Math.floor(Math.random() * Math.floor(maxCircleRadius / 3)) + minCircleRadius;
-    return new Circle(color, x, y, radius);
+    const hslColor: hslTriple = [random(360), random(100), random(100)];
+    const x = random(xMax);
+    const y = random(yMax);
+    const radius = random(maxCircleRadius / 3) + minCircleRadius;
+    return new Circle(hslColor, x, y, radius);
   }
 
   static isCircle(s: Shape): s is Circle {
@@ -50,8 +59,8 @@ export class Circle extends Shape {
   }
 
   draw(ctx: CanvasRenderingContext2D): void {
-    const { color, x, y, radius } = this;
-    ctx.fillStyle = color;
+    const { hslColor, x, y, radius } = this;
+    ctx.fillStyle = Shape.convertColorTripleToString(hslColor);
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, 2 * Math.PI);
     ctx.fill();

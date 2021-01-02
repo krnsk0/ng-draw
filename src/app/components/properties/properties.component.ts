@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SceneService } from '../../services/scene.service';
 import { Scene } from '../../shapes';
-import { Circle, Rectangle } from '../../shapes';
+import { Circle, Rectangle, Shape } from '../../shapes';
 import {
   minRectangleSide,
   maxRectangleSide,
@@ -16,6 +16,7 @@ import {
   styleUrls: ['./properties.component.css'],
 })
 export class PropertiesComponent implements OnInit, OnDestroy {
+  // scene state snapshot and subscription
   private scene: Scene = [];
   private subscription: Subscription | null = null;
 
@@ -28,6 +29,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   // typeguards for template use
   isCircle = Circle.isCircle;
   isRectangle = Rectangle.isRectangle;
+
+  // for the color-picker modal
+  modalOpen = true;
+  tempHslModalColor: [number, number, number] = [0, 0, 0];
+
+  // helper for color conversion
+  convertColorTripleToString = Shape.convertColorTripleToString;
 
   constructor(public sceneService: SceneService) {}
 
@@ -55,5 +63,13 @@ export class PropertiesComponent implements OnInit, OnDestroy {
    */
   handleDelete(uuid: string): void {
     this.sceneService.removeShapeById(uuid);
+  }
+
+  modalOverlayClick(): void {
+    this.modalOpen = false;
+  }
+
+  openModal(): void {
+    this.modalOpen = true;
   }
 }
