@@ -16,10 +16,10 @@ import { Scene, Shape } from '../../shapes';
 })
 export class CanvasComponent implements OnInit {
   @ViewChild('canvas', { static: true })
-  canvasRef: ElementRef<HTMLCanvasElement> | null = null;
+  private readonly canvasRef: ElementRef<HTMLCanvasElement> | null = null;
   private ctx: CanvasRenderingContext2D | null = null;
-  private readonly width = canvasWidth;
-  private readonly height = canvasHeight;
+  readonly width = canvasWidth;
+  readonly height = canvasHeight;
 
   constructor(private sceneService: SceneService, public toolsService: ToolsService) {}
 
