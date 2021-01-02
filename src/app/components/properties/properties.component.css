@@ -59,3 +59,9 @@
 .modal-label {
   margin-right: 2em;
 }
+
+.modal-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
