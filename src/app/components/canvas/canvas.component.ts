@@ -5,11 +5,6 @@ import { SceneService } from '../../services/scene.service';
 import { ToolsService } from '../../services/tools.service';
 import { Scene, Shape } from '../../shapes';
 
-/**
- * This class has the following conerns:
- * 1. drawing to the canvas
- * 2. handling canvas events
- */
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
