@@ -64,32 +64,50 @@
       <div
         class="color-swatch"
         [style.background]="convertColorTripleToString(shape.hslColor)"
-        (click)="openModal()"
+        (click)="openModal(shape.id)"
       ></div>
+      <app-modal *ngIf="modalOpen" (overlayClick)="cancelModal()">
+        <div class="modal-flex">
+          <div
+            class="color-swatch-modal"
+            [style.background]="convertColorTripleToString(tempHslModalColor)"
+          ></div>
+          <div>
+            <label class="modal-label">H</label>
+            <input
+              type="range"
+              min="0"
+              max="360"
+              (input)="handleColorInput(0, $event)"
+              [value]="shape.hslColor[0]"
+            />
+          </div>
+          <div>
+            <label class="modal-label">S</label>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              (input)="handleColorInput(1, $event)"
+              [value]="shape.hslColor[1]"
+            />
+          </div>
+          <div>
+            <label class="modal-label">L</label>
+            <input
+              type="range"
+              min="0"
+              max="100"
+              (input)="handleColorInput(2, $event)"
+              [value]="shape.hslColor[2]"
+            />
+          </div>
+          <div class="modal-button-container">
+            <button type="button" class="modal-button" (click)="cancelModal()">cancel</button>
+            <button type="button" class="modal-button" (click)="modalOk()">ok</button>
+          </div>
+        </div>
+      </app-modal>
     </div>
   </div>
-  <app-modal *ngIf="modalOpen" (overlayClick)="modalOverlayClick()">
-    <div class="modal-flex">
-      <div
-        class="color-swatch-modal"
-        [style.background]="convertColorTripleToString([100, 50, 50])"
-      ></div>
-      <div>
-        <label class="modal-label">H</label>
-        <input type="range" />
-      </div>
-      <div>
-        <label class="modal-label">S</label>
-        <input type="range" />
-      </div>
-      <div>
-        <label class="modal-label">L</label>
-        <input type="range" />
-      </div>
-      <div class="modal-button-container">
-        <button type="button" class="modal-button">cancel</button>
-        <button type="button" class="modal-button">ok</button>
-      </div>
-    </div>
-  </app-modal>
 </div>

@@ -9,6 +9,7 @@ import {
   minCircleRadius,
   maxCircleRadius,
 } from '../../constants';
+import { hslTriple } from '../../types';
 
 @Component({
   selector: 'app-properties',
@@ -31,10 +32,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   isRectangle = Rectangle.isRectangle;
 
   // for the color-picker modal
-  modalOpen = true;
+  modalOpen = false;
   tempHslModalColor: [number, number, number] = [0, 0, 0];
-
-  // helper for color conversion
+  tempShapeId: string | null = null;
   convertColorTripleToString = Shape.convertColorTripleToString;
 
   constructor(public sceneService: SceneService) {}
@@ -65,11 +65,50 @@ export class PropertiesComponent implements OnInit, OnDestroy {
     this.sceneService.removeShapeById(uuid);
   }
 
-  modalOverlayClick(): void {
+  /**
+   * Open the modal, set a temp color
+   */
+  openModal(shapeId: string): void {
+    this.modalOpen = true;
+    this.tempShapeId = shapeId;
+    const currentShape = this.sceneService.sceneState.find((shape) => shape.id === shapeId);
+    if (currentShape) {
+      this.tempHslModalColor = currentShape.hslColor;
+    }
+  }
+
+  /**
+   * Close modal without changing any state
+   */
+  cancelModal(): void {
     this.modalOpen = false;
   }
 
-  openModal(): void {
-    this.modalOpen = true;
+  /**
+   * Close modal but persist color change
+   */
+  modalOk(): void {
+    this.modalOpen = false;
+    const currentShape = this.sceneService.sceneState.find(
+      (shape) => shape.id === this.tempShapeId
+    );
+    if (currentShape) {
+      currentShape.hslColor = this.tempHslModalColor;
+      this.sceneService.pushSceneUpdate();
+    }
+  }
+
+  /**
+   * Handle input events from the color sliders
+   */
+  handleColorInput(tripleIndex: number, $event: Event): void {
+    const value = +($event.target as HTMLInputElement).value;
+    const colorCopy: hslTriple = [
+      this.tempHslModalColor[0],
+      this.tempHslModalColor[1],
+      this.tempHslModalColor[2],
+    ];
+    colorCopy[tripleIndex] = +value;
+    this.tempHslModalColor = colorCopy;
   }
 }
