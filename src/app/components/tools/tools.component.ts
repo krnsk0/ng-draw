@@ -14,6 +14,9 @@ export class ToolsComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  /**
+   * Handle clicks on the shape tools
+   */
   shapeToolClick(tool: string): void {
     if (tool === 'circle') {
       this.sceneService.sceneState = [

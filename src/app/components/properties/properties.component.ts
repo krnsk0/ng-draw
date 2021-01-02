@@ -25,11 +25,11 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   minCircleRadius = minCircleRadius;
   maxCircleRadius = maxCircleRadius;
 
-  constructor(public sceneService: SceneService) {}
-
   // typeguards for template use
   isCircle = Circle.isCircle;
   isRectangle = Rectangle.isRectangle;
+
+  constructor(public sceneService: SceneService) {}
 
   ngOnInit(): void {
     this.subscription = this.sceneService.scene$.subscribe((nextScene) => {
