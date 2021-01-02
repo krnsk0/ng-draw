@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { ToolsService } from './tools.service';
 import { canvasWidth, canvasHeight } from '../constants';
 
 import { Scene, Shape, Rectangle, Circle } from '../shapes';
@@ -9,10 +8,10 @@ import { Scene, Shape, Rectangle, Circle } from '../shapes';
   providedIn: 'root',
 })
 export class SceneService {
-  private sceneState: Scene = [];
+  public sceneState: Scene = [];
   public readonly scene$: BehaviorSubject<Scene> = new BehaviorSubject<Scene>(this.sceneState);
 
-  constructor(private toolsService: ToolsService) {}
+  constructor() {}
 
   pushSceneUpdate(): void {
     this.scene$.next(this.sceneState);
@@ -61,54 +60,6 @@ export class SceneService {
     // wtf, how can avoid the typecast here?
     const value = +($event.target as HTMLInputElement).value;
     setterFunc(value);
-    this.pushSceneUpdate();
-  }
-
-  dragSelection(x: number, y: number): void {
-    if (this.toolsService.prevMouseCoords) {
-      const [prevX, prevY] = this.toolsService.prevMouseCoords;
-
-      // move selected shapes
-      this.sceneState
-        .filter((shape) => shape.selected)
-        .forEach((shape) => {
-          shape.move(x - prevX, y - prevY);
-        });
-    }
-  }
-
-  canvasMousedown(x: number, y: number): void {
-    const shape = this.findTopmostShapeUnderCursor(x, y);
-
-    // deselects previous selection when user's click
-    // is on an unselected shape (w/out shift)
-    if (shape && !shape.selected && !this.toolsService.shift()) {
-      this.deselectAllShapes();
-    }
-
-    if (shape) {
-      shape.selected = true;
-    }
-
-    if (!shape) {
-      this.deselectAllShapes();
-    }
-
-    this.pushSceneUpdate();
-  }
-
-  canvasMouseup(x: number, y: number): void {
-    // empty, for now
-  }
-
-  canvasMove(x: number, y: number): void {
-    if (!this.toolsService.clickState) {
-      this.hoverShape(x, y);
-    }
-    if (this.toolsService.clickState) {
-      this.dragSelection(x, y);
-    }
-
     this.pushSceneUpdate();
   }
 }

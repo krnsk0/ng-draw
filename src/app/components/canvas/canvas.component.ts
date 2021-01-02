@@ -60,21 +60,63 @@ export class CanvasComponent implements OnInit {
     return;
   }
 
+  dragSelection(x: number, y: number): void {
+    if (this.toolsService.prevMouseCoords) {
+      const [prevX, prevY] = this.toolsService.prevMouseCoords;
+
+      // move selected shapes
+      this.sceneService.sceneState
+        .filter((shape) => shape.selected)
+        .forEach((shape) => {
+          shape.move(x - prevX, y - prevY);
+        });
+    }
+  }
+
   handleMousedown(event: MouseEvent): void {
     this.toolsService.registerClick();
     const coords = this.calculateRelativeCoords(event);
     this.toolsService.clickState = true;
     if (coords) {
       this.toolsService.setCurrentCoords(...coords);
-      this.sceneService.canvasMousedown(...coords);
+
+      const [x, y] = coords;
+
+      const shape = this.sceneService.findTopmostShapeUnderCursor(x, y);
+
+      // deselects previous selection when user's click
+      // is on an unselected shape (w/out shift)
+      if (shape && !shape.selected && !this.toolsService.shift()) {
+        this.sceneService.deselectAllShapes();
+      }
+
+      if (shape) {
+        shape.selected = true;
+      }
+
+      if (!shape) {
+        this.sceneService.deselectAllShapes();
+      }
+
+      this.sceneService.pushSceneUpdate();
     }
   }
 
   handleMove(event: MouseEvent): void {
     const coords = this.calculateRelativeCoords(event);
     if (coords) {
+      const [x, y] = coords;
       this.toolsService.setCurrentCoords(...coords);
-      this.sceneService.canvasMove(...coords);
+
+      // the old move method
+      if (!this.toolsService.clickState) {
+        this.sceneService.hoverShape(x, y);
+      }
+      if (this.toolsService.clickState) {
+        this.dragSelection(x, y);
+      }
+
+      this.sceneService.pushSceneUpdate();
     }
   }
 
@@ -83,7 +125,6 @@ export class CanvasComponent implements OnInit {
     this.toolsService.clickState = false;
     if (coords) {
       this.toolsService.setCurrentCoords(...coords);
-      this.sceneService.canvasMouseup(...coords);
     }
   }
 }
