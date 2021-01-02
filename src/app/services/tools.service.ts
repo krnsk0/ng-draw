@@ -15,14 +15,12 @@ export class ToolsService {
   public prevMouseCoords: [number, number] | false = false;
   public curMouseCoords: [number, number] | false = false;
 
-  // how long was mouse down
-  public mousedownTimestamp = 0;
-
+  /**
+   * Because there are no lifecycle methods for singleton services
+   * we never unsubscribe. Not a problem-- yet. Might need to move
+   * subscriptions elsewhere in future
+   */
   constructor() {
-    // set up shift key listeners
-    // is the constructor the right place to be doing this?
-    // probably not
-    // also we never unsubscribe these...
     document.addEventListener('keydown', (e) => {
       if (e.code === 'ShiftLeft') this.lShift = true;
     });
@@ -37,15 +35,17 @@ export class ToolsService {
     });
   }
 
+  /**
+   * Stores current & last mouse coords
+   */
   setCurrentCoords(x: number, y: number): void {
     this.prevMouseCoords = this.curMouseCoords;
     this.curMouseCoords = [x, y];
   }
 
-  registerClick(): void {
-    this.mousedownTimestamp = Date.now();
-  }
-
+  /**
+   * Is either shift key down
+   */
   shift(): boolean {
     return this.lShift || this.rShift;
   }

@@ -108,7 +108,6 @@ export class CanvasComponent implements OnInit, OnDestroy {
    * as needed when user clicks on canvas
    */
   handleMousedown(event: MouseEvent): void {
-    this.toolsService.registerClick();
     const coords = this.calculateRelativeCoords(event);
     this.toolsService.clickState = true;
     if (coords) {
