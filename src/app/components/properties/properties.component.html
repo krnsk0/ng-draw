@@ -66,7 +66,7 @@
         [style.background]="convertColorTripleToString(shape.hslColor)"
         (click)="openModal(shape.id)"
       ></div>
-      <app-modal *ngIf="modalOpen" (overlayClick)="cancelModal()">
+      <app-modal-layout *ngIf="modalOpen" (overlayClick)="cancelModal()">
         <div class="modal-flex">
           <div
             class="color-swatch-modal"
@@ -107,7 +107,7 @@
             <button type="button" class="modal-button" (click)="modalOk()">ok</button>
           </div>
         </div>
-      </app-modal>
+      </app-modal-layout>
     </div>
   </div>
 </div>

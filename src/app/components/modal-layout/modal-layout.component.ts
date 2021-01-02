@@ -1,11 +1,11 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 
 @Component({
-  selector: 'app-modal',
-  templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.css'],
+  selector: 'app-modal-layout',
+  templateUrl: './modalLayout.component.html',
+  styleUrls: ['./modalLayout.component.css'],
 })
-export class ModalComponent implements OnInit {
+export class ModalLayoutComponent implements OnInit {
   @Output() overlayClick = new EventEmitter<null>();
 
   constructor() {}
