@@ -8,3 +8,4 @@ export const minCircleRadius = 10;
 export const maxCircleRadius = 350;
 export const minRectangleSide = 10;
 export const maxRectangleSide = 350;
+export const canvasBackgroundColor = 'white';
