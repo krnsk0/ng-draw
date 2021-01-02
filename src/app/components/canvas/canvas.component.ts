@@ -1,9 +1,14 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { canvasWidth, canvasHeight } from '../../constants';
+import { canvasWidth, canvasHeight, canvasBackgroundColor } from '../../constants';
 import { SceneService } from '../../services/scene.service';
 import { ToolsService } from '../../services/tools.service';
 import { Scene, Shape } from '../../shapes';
 
+/**
+ * This class has the following conerns:
+ * 1. drawing to the canvas
+ * 2. handling canvas events
+ */
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
@@ -13,8 +18,8 @@ export class CanvasComponent implements OnInit {
   @ViewChild('canvas', { static: true })
   canvasRef: ElementRef<HTMLCanvasElement> | null = null;
   private ctx: CanvasRenderingContext2D | null = null;
-  width = canvasWidth;
-  height = canvasHeight;
+  private readonly width = canvasWidth;
+  private readonly height = canvasHeight;
 
   constructor(private sceneService: SceneService, public toolsService: ToolsService) {}
 
@@ -29,27 +34,11 @@ export class CanvasComponent implements OnInit {
     });
   }
 
-  updateScene(scene: Scene): void {
-    // clean slate
-    this.clear();
-
-    // draw stuff
-    scene.forEach((shape: Shape) => {
-      if (this.ctx) {
-        shape.drawHoverHalo(this.ctx);
-        shape.drawSelectionHalo(this.ctx);
-        shape.draw(this.ctx);
-      }
-    });
-  }
-
-  clear(): void {
-    if (this.ctx) {
-      this.ctx.fillStyle = 'white';
-      this.ctx.fillRect(0, 0, this.width, this.height);
-    }
-  }
-
+  /**
+   * Helepr which calculates the element-relative x, y coords of a
+   * cavnas interaction from an event which represents an interaction
+   * with the canvas
+   */
   private calculateRelativeCoords(event: MouseEvent): [number, number] | undefined {
     if (this.canvasRef) {
       const domRect = this.canvasRef.nativeElement.getBoundingClientRect();
@@ -60,6 +49,39 @@ export class CanvasComponent implements OnInit {
     return;
   }
 
+  /**
+   * Wipes the canvas and updates it. The actual drawing is
+   * handled by the shape classes-- we just pass the canvas
+   * context object in, here
+   */
+  updateScene(scene: Scene): void {
+    this.clear();
+
+    scene.forEach((shape: Shape) => {
+      if (this.ctx) {
+        shape.drawHoverHalo(this.ctx);
+        shape.drawSelectionHalo(this.ctx);
+        shape.draw(this.ctx);
+      }
+    });
+  }
+
+  /**
+   * Overwrites whatever is on the canvas with the canvas' configured
+   * background color
+   */
+  clear(): void {
+    if (this.ctx) {
+      this.ctx.fillStyle = canvasBackgroundColor;
+      this.ctx.fillRect(0, 0, this.width, this.height);
+    }
+  }
+
+  /**
+   * This handles dragging a selection on the canvas based on a
+   * delta computed from the previous mouse position as stored in
+   * the tool service
+   */
   dragSelection(x: number, y: number): void {
     if (this.toolsService.prevMouseCoords) {
       const [prevX, prevY] = this.toolsService.prevMouseCoords;
@@ -73,6 +95,10 @@ export class CanvasComponent implements OnInit {
     }
   }
 
+  /**
+   * Upates toolService's state, selects or deselects shapes
+   * as needed when user clicks on canvas
+   */
   handleMousedown(event: MouseEvent): void {
     this.toolsService.registerClick();
     const coords = this.calculateRelativeCoords(event);
@@ -102,6 +128,10 @@ export class CanvasComponent implements OnInit {
     }
   }
 
+  /**
+   * Upates toolService's state, initiates drags if needed
+   * when the use moves the mouse over the canvas
+   */
   handleMove(event: MouseEvent): void {
     const coords = this.calculateRelativeCoords(event);
     if (coords) {
@@ -120,6 +150,10 @@ export class CanvasComponent implements OnInit {
     }
   }
 
+  /**
+   * Upates toolService's state when the user
+   * releases the mouse button
+   */
   handleMouseup(event: MouseEvent): void {
     const coords = this.calculateRelativeCoords(event);
     this.toolsService.clickState = false;
