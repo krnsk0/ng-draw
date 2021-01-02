@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { canvasWidth, canvasHeight } from '../constants';
 
-import { Scene, Shape, Rectangle, Circle } from '../shapes';
+import { Scene, Shape } from '../shapes';
 
 @Injectable({
   providedIn: 'root',
@@ -40,20 +39,6 @@ export class SceneService {
       currentShape.hovered = false;
     });
     if (shape) shape.hovered = true;
-  }
-
-  shapeToolClick(tool: string): void {
-    if (tool === 'circle') {
-      this.sceneState = [...this.sceneState, Circle.generateRandomShape(canvasWidth, canvasHeight)];
-      this.pushSceneUpdate();
-    }
-    if (tool === 'rectangle') {
-      this.sceneState = [
-        ...this.sceneState,
-        Rectangle.generateRandomShape(canvasWidth, canvasHeight),
-      ];
-      this.pushSceneUpdate();
-    }
   }
 
   setShapeProperty(setterFunc: (val: number) => void, $event: Event): void {
