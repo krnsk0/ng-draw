@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { toolTypes } from '../types';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,9 @@ export class ToolsService {
   // mouse positions
   public prevMouseCoords: [number, number] | false = false;
   public curMouseCoords: [number, number] | false = false;
+
+  // tool mode
+  public toolMode: toolTypes = 'select';
 
   /**
    * Because there are no lifecycle methods for singleton services
@@ -48,5 +52,12 @@ export class ToolsService {
    */
   shift(): boolean {
     return this.lShift || this.rShift;
+  }
+
+  /**
+   * Set active tool
+   */
+  selectTool(toolName: toolTypes): void {
+    this.toolMode = toolName;
   }
 }

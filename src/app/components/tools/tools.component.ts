@@ -3,8 +3,8 @@ import { canvasWidth, canvasHeight } from '../../constants';
 import { SceneService } from '../../services/scene.service';
 import { ToolsService } from '../../services/tools.service';
 import { Rectangle, Circle } from '../../shapes';
-import { hslTriple } from '../../types';
-import { random, convertColorTripleToString, makeRandomHslColor } from '../../utils';
+import { hslTriple, toolTypes } from '../../types';
+import { convertColorTripleToString, makeRandomHslColor } from '../../utils';
 @Component({
   selector: 'app-tools',
   templateUrl: './tools.component.html',
@@ -31,23 +31,24 @@ export class ToolsComponent implements OnInit {
 
   /**
    * Handle clicks on the shape tools
+   * TODO: remove this
    */
-  shapeToolClick(tool: string): void {
-    if (tool === 'circle') {
-      this.sceneService.sceneState = [
-        ...this.sceneService.sceneState,
-        Circle.generateRandomShape(canvasWidth, canvasHeight, this.selectedColor),
-      ];
-      this.sceneService.pushSceneUpdate();
-    }
-    if (tool === 'rectangle') {
-      this.sceneService.sceneState = [
-        ...this.sceneService.sceneState,
-        Rectangle.generateRandomShape(canvasWidth, canvasHeight, this.selectedColor),
-      ];
-      this.sceneService.pushSceneUpdate();
-    }
-  }
+  // shapeToolClick(tool: string): void {
+  //   if (tool === 'circle') {
+  //     this.sceneService.sceneState = [
+  //       ...this.sceneService.sceneState,
+  //       Circle.generateRandomShape(canvasWidth, canvasHeight, this.selectedColor),
+  //     ];
+  //     this.sceneService.pushSceneUpdate();
+  //   }
+  //   if (tool === 'rectangle') {
+  //     this.sceneService.sceneState = [
+  //       ...this.sceneService.sceneState,
+  //       Rectangle.generateRandomShape(canvasWidth, canvasHeight, this.selectedColor),
+  //     ];
+  //     this.sceneService.pushSceneUpdate();
+  //   }
+  // }
 
   /**
    * Opens the color picker modal
@@ -64,5 +65,12 @@ export class ToolsComponent implements OnInit {
     if (selectedColor) {
       this.selectedColor = selectedColor;
     }
+  }
+
+  /**
+   * select tool
+   */
+  selectTool(toolName: toolTypes): void {
+    this.toolsService.selectTool(toolName);
   }
 }

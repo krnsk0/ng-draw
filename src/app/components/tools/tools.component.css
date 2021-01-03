@@ -1,4 +1,11 @@
-.tool-container {
+.tool-container-outer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.tool-container-inner {
   display: flex;
   flex-direction: column;
 }
@@ -8,6 +15,10 @@
   margin: 0 0.5em 0.5em 0;
   padding: 0.25em;
   background: none;
+}
+
+.tool-button:last-child {
+  margin-bottom: 0;
 }
 
 /* a big a11y no-no */

@@ -1,20 +1,46 @@
-<div class="tool-container">
-  <button type="button" class="tool-button" (click)="shapeToolClick('rectangle')">Rectangle</button>
-  <button type="button" class="tool-button" (click)="shapeToolClick('circle')">Circle</button>
-  <button
-    type="button"
-    class="color-swatch"
-    (click)="openModal(selectedColor)"
-    [style.background]="convertColorTripleToString(selectedColor)"
-    [style.color]="selectedColor[2] > 50 ? 'black' : 'white'"
-  >
-    Selected Color
-  </button>
-  <app-color-picker-modal
-    *ngIf="modalState"
-    [initialColor]="modalState"
-    (pickerCancel)="closeModal(null)"
-    (pickerConfirm)="closeModal($event)"
-  ></app-color-picker-modal>
-  <button type="button" class="tool-button" (click)="pickRandomColor()">Random color</button>
+<div class="tool-container-outer">
+  <div class="tool-container-inner">
+    <button
+      type="button"
+      class="tool-button"
+      (click)="selectTool('select')"
+      [style.background]="toolsService.toolMode === 'select' ? 'lightblue' : 'white'"
+    >
+      Select
+    </button>
+    <button
+      type="button"
+      class="tool-button"
+      (click)="selectTool('rectangle')"
+      [style.background]="toolsService.toolMode === 'rectangle' ? 'lightblue' : 'white'"
+    >
+      Rectangle
+    </button>
+    <button
+      type="button"
+      class="tool-button"
+      (click)="selectTool('circle')"
+      [style.background]="toolsService.toolMode === 'circle' ? 'lightblue' : 'white'"
+    >
+      Circle
+    </button>
+  </div>
+  <div class="tool-container-inner">
+    <button
+      type="button"
+      class="color-swatch"
+      (click)="openModal(selectedColor)"
+      [style.background]="convertColorTripleToString(selectedColor)"
+      [style.color]="selectedColor[2] > 50 ? 'black' : 'white'"
+    >
+      Selected Color
+    </button>
+    <app-color-picker-modal
+      *ngIf="modalState"
+      [initialColor]="modalState"
+      (pickerCancel)="closeModal(null)"
+      (pickerConfirm)="closeModal($event)"
+    ></app-color-picker-modal>
+    <button type="button" class="tool-button" (click)="pickRandomColor()">Random color</button>
+  </div>
 </div>
