@@ -10,7 +10,6 @@ import {
   maxCircleRadius,
 } from '../../constants';
 import { hslTriple } from '../../types';
-
 @Component({
   selector: 'app-properties',
   templateUrl: './properties.component.html',
@@ -31,11 +30,12 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   isCircle = Circle.isCircle;
   isRectangle = Rectangle.isRectangle;
 
-  // for the color-picker modal
-  modalOpen = false;
-  tempHslModalColor: [number, number, number] = [0, 0, 0];
-  tempShapeId: string | null = null;
+  // TODO remove this after refactor
   convertColorTripleToString = Shape.convertColorTripleToString;
+
+  // modal state & initial color
+  modalSelectedColor: null | hslTriple = null; // modal is open when truthy
+  shapeUuid: null | string = null; // uuid of the shape whose color we are changing
 
   constructor(public sceneService: SceneService) {}
 
@@ -66,49 +66,20 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Open the modal, set a temp color
+   * Opens modal by setting its state to the initial color
    */
-  openModal(shapeId: string): void {
-    this.modalOpen = true;
-    this.tempShapeId = shapeId;
-    const currentShape = this.sceneService.sceneState.find((shape) => shape.id === shapeId);
-    if (currentShape) {
-      this.tempHslModalColor = currentShape.hslColor;
+  openModal(hslColor: hslTriple, uuid: string): void {
+    this.shapeUuid = uuid;
+    this.modalSelectedColor = hslColor;
+  }
+
+  /**
+   * Closes modal and either sets a new color or does nothing
+   */
+  closeModal(selectedColor: hslTriple | null): void {
+    this.modalSelectedColor = null; // close modal
+    if (selectedColor && this.shapeUuid) {
+      this.sceneService.setShapeColorById(selectedColor, this.shapeUuid);
     }
-  }
-
-  /**
-   * Close modal without changing any state
-   */
-  cancelModal(): void {
-    this.modalOpen = false;
-  }
-
-  /**
-   * Close modal but persist color change
-   */
-  modalOk(): void {
-    this.modalOpen = false;
-    const currentShape = this.sceneService.sceneState.find(
-      (shape) => shape.id === this.tempShapeId
-    );
-    if (currentShape) {
-      currentShape.hslColor = this.tempHslModalColor;
-      this.sceneService.pushSceneUpdate();
-    }
-  }
-
-  /**
-   * Handle input events from the color sliders
-   */
-  handleColorInput(tripleIndex: number, $event: Event): void {
-    const value = +($event.target as HTMLInputElement).value;
-    const colorCopy: hslTriple = [
-      this.tempHslModalColor[0],
-      this.tempHslModalColor[1],
-      this.tempHslModalColor[2],
-    ];
-    colorCopy[tripleIndex] = +value;
-    this.tempHslModalColor = colorCopy;
   }
 }

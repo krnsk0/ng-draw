@@ -1,0 +1,29 @@
+.color-swatch-modal {
+  border: 1px solid black;
+  width: 100%;
+  height: 4em;
+  margin: 0 0 1em 0;
+}
+
+.modal-button {
+  border: 1px solid black;
+  margin: 1em 0.5em 0.5em 0;
+  padding: 0.25em;
+  background: none;
+}
+
+.modal-flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal-label {
+  margin-right: 2em;
+}
+
+.modal-button-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}

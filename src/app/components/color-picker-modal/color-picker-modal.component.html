@@ -1,1 +1,42 @@
-<p>color-picker-modal works!</p>
+<app-modal-layout (overlayClick)="cancelModal()">
+  <div class="modal-flex">
+    <div
+      class="color-swatch-modal"
+      [style.background]="convertColorTripleToString(currentColor)"
+    ></div>
+    <div>
+      <label class="modal-label">H</label>
+      <input
+        type="range"
+        min="0"
+        max="360"
+        (input)="handleColorInput(0, $event)"
+        [value]="currentColor[0]"
+      />
+    </div>
+    <div>
+      <label class="modal-label">S</label>
+      <input
+        type="range"
+        min="0"
+        max="100"
+        (input)="handleColorInput(1, $event)"
+        [value]="currentColor[1]"
+      />
+    </div>
+    <div>
+      <label class="modal-label">L</label>
+      <input
+        type="range"
+        min="0"
+        max="100"
+        (input)="handleColorInput(2, $event)"
+        [value]="currentColor[2]"
+      />
+    </div>
+    <div class="modal-button-container">
+      <button type="button" class="modal-button" (click)="cancelModal()">cancel</button>
+      <button type="button" class="modal-button" (click)="okModal()">ok</button>
+    </div>
+  </div>
+</app-modal-layout>

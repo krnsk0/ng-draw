@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-
 import { Scene, Shape } from '../shapes';
+import { hslTriple } from '../types';
 
 @Injectable({
   providedIn: 'root',
@@ -46,5 +46,13 @@ export class SceneService {
     const value = +($event.target as HTMLInputElement).value;
     setterFunc(value);
     this.pushSceneUpdate();
+  }
+
+  setShapeColorById(color: hslTriple, uuid: string): void {
+    const shapeToUpdate = this.sceneState.find((shape) => shape.id === uuid);
+    if (shapeToUpdate) {
+      shapeToUpdate.hslColor = color;
+      this.pushSceneUpdate();
+    }
   }
 }
