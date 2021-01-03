@@ -4,7 +4,9 @@
       type="button"
       class="tool-button"
       (click)="selectTool('select')"
-      [style.background]="toolsService.toolMode === 'select' ? 'lightblue' : 'white'"
+      [style.background]="
+        toolsService.toolMode === 'select' ? selectedToolBackgroundColor : 'white'
+      "
     >
       Select
     </button>
@@ -12,7 +14,9 @@
       type="button"
       class="tool-button"
       (click)="selectTool('rectangle')"
-      [style.background]="toolsService.toolMode === 'rectangle' ? 'lightblue' : 'white'"
+      [style.background]="
+        toolsService.toolMode === 'rectangle' ? selectedToolBackgroundColor : 'white'
+      "
     >
       Rectangle
     </button>
@@ -20,7 +24,9 @@
       type="button"
       class="tool-button"
       (click)="selectTool('circle')"
-      [style.background]="toolsService.toolMode === 'circle' ? 'lightblue' : 'white'"
+      [style.background]="
+        toolsService.toolMode === 'circle' ? selectedToolBackgroundColor : 'white'
+      "
     >
       Circle
     </button>

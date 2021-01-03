@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { canvasWidth, canvasHeight } from '../../constants';
 import { SceneService } from '../../services/scene.service';
 import { ToolsService } from '../../services/tools.service';
-import { Rectangle, Circle } from '../../shapes';
 import { hslTriple, toolTypes } from '../../types';
 import { convertColorTripleToString, makeRandomHslColor } from '../../utils';
+import { selectedToolBackgroundColor } from '../../constants';
 @Component({
   selector: 'app-tools',
   templateUrl: './tools.component.html',
@@ -15,6 +14,7 @@ export class ToolsComponent implements OnInit {
   modalState: null | hslTriple = null; // modal is open
   selectedColor: hslTriple = [0, 0, 0];
   convertColorTripleToString = convertColorTripleToString;
+  selectedToolBackgroundColor = selectedToolBackgroundColor;
 
   constructor(public toolsService: ToolsService, public sceneService: SceneService) {
     this.pickRandomColor();
