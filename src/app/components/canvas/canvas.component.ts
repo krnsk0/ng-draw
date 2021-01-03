@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { SceneService } from '../../services/scene.service';
 import { ToolsService } from '../../services/tools.service';
 import { Scene, Shape } from '../../shapes';
+import { toolTypes } from '../../types';
 
 @Component({
   selector: 'app-canvas',
@@ -102,33 +103,71 @@ export class CanvasComponent implements OnInit, OnDestroy {
    * Upates toolService's state, selects or deselects shapes
    * as needed when user clicks on canvas
    */
+  handleSelectMousedown(coords: [number, number]): void {
+    const [x, y] = coords;
+    const shape = this.sceneService.findTopmostShapeUnderCursor(x, y);
+
+    // deselects previous selection when user's click
+    // is on an unselected shape (w/out shift)
+    if (shape && !shape.selected && !this.toolsService.shift()) {
+      this.sceneService.deselectAllShapes();
+    }
+
+    if (shape) {
+      shape.selected = true;
+    }
+
+    if (!shape) {
+      this.sceneService.deselectAllShapes();
+    }
+
+    this.sceneService.pushSceneUpdate();
+  }
+
+  /**
+   * Handle mousedown click on a shape
+   */
+  handleShapeMousedown(coords: [number, number], toolName: toolTypes): void {
+    // TODO
+  }
+
+  /**
+   * Delegate mousedown clicks to the appropriate
+   * handler depending on the selected tool
+   */
   handleMousedown(event: MouseEvent): void {
     const coords = this.calculateRelativeCoords(event);
     this.toolsService.clickState = true;
     if (coords) {
       this.toolsService.setCurrentCoords(...coords);
 
-      const [x, y] = coords;
-
-      const shape = this.sceneService.findTopmostShapeUnderCursor(x, y);
-
-      // deselects previous selection when user's click
-      // is on an unselected shape (w/out shift)
-      if (shape && !shape.selected && !this.toolsService.shift()) {
-        this.sceneService.deselectAllShapes();
+      // delegate to correct method
+      if (this.toolsService.toolMode) {
+        this.handleSelectMousedown(coords);
+      } else {
+        this.handleShapeMousedown(coords, this.toolsService.toolMode);
       }
-
-      if (shape) {
-        shape.selected = true;
-      }
-
-      if (!shape) {
-        this.sceneService.deselectAllShapes();
-      }
-
-      this.sceneService.pushSceneUpdate();
     }
   }
+
+  handleSelectMove(coords: [number, number]): void {
+    const [x, y] = coords;
+
+    // the old move method
+    if (!this.toolsService.clickState) {
+      this.sceneService.hoverShape(x, y);
+    }
+    if (this.toolsService.clickState) {
+      this.dragSelection(x, y);
+    }
+
+    this.sceneService.pushSceneUpdate();
+  }
+
+  /**
+   * Handle shape move
+   */
+  handleShapeMove(coords: [number, number], toolName: toolTypes): void {}
 
   /**
    * Upates toolService's state, initiates drags if needed
@@ -137,18 +176,14 @@ export class CanvasComponent implements OnInit, OnDestroy {
   handleMove(event: MouseEvent): void {
     const coords = this.calculateRelativeCoords(event);
     if (coords) {
-      const [x, y] = coords;
       this.toolsService.setCurrentCoords(...coords);
 
-      // the old move method
-      if (!this.toolsService.clickState) {
-        this.sceneService.hoverShape(x, y);
+      // delegate to correct method
+      if (this.toolsService.toolMode) {
+        this.handleSelectMove(coords);
+      } else {
+        this.handleShapeMove(coords, this.toolsService.toolMode);
       }
-      if (this.toolsService.clickState) {
-        this.dragSelection(x, y);
-      }
-
-      this.sceneService.pushSceneUpdate();
     }
   }
 
@@ -161,6 +196,13 @@ export class CanvasComponent implements OnInit, OnDestroy {
     this.toolsService.clickState = false;
     if (coords) {
       this.toolsService.setCurrentCoords(...coords);
+
+      // delegate to correct method
+      if (this.toolsService.toolMode) {
+        // TODO
+      } else {
+        // TODO
+      }
     }
   }
 }

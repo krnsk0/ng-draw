@@ -16,8 +16,9 @@ export class ToolsService {
   public prevMouseCoords: [number, number] | false = false;
   public curMouseCoords: [number, number] | false = false;
 
-  // tool mode
+  // tool mode & state
   public toolMode: toolTypes = 'select';
+  public clickCount: 0 | 1 | 2 = 0;
 
   /**
    * Because there are no lifecycle methods for singleton services
