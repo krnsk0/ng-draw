@@ -12,27 +12,44 @@ export class SceneService {
 
   constructor() {}
 
+  /**
+   * Emit the state snapshot to the observable.
+   * Should be subscribed to in components to update views
+   */
   pushSceneUpdate(): void {
     this.scene$.next(this.sceneState);
   }
 
+  /**
+   * Deletes a shape from the state by ID and updates
+   */
   removeShapeById(id: string): void {
     this.sceneState = this.sceneState.filter((shape) => shape.id !== id);
     this.pushSceneUpdate();
   }
 
+  /**
+   * If a shape is at x, y return it, else return null
+   * Searches from the end of the list
+   */
   findTopmostShapeUnderCursor(x: number, y: number): Shape | null {
     const sceneCopy = this.sceneState.slice();
     sceneCopy.reverse();
     return sceneCopy.find((shape) => shape.isPointInShape(x, y)) || null;
   }
 
+  /**
+   * Set selection state for all shapes to false
+   */
   deselectAllShapes(): void {
     this.sceneState.forEach((currentShape) => {
       currentShape.selected = false;
     });
   }
 
+  /**
+   * Sets hover state on a shape if one exists under x, y
+   */
   hoverShape(x: number, y: number): void {
     const shape = this.findTopmostShapeUnderCursor(x, y);
     this.sceneState.forEach((currentShape) => {
@@ -41,6 +58,11 @@ export class SceneService {
     if (shape) shape.hovered = true;
   }
 
+  /**
+   * Updates shape properties based on an event
+   * TODO: This is pretty wonky and should be changed to
+   * accept a uuid
+   */
   setShapeProperty(setterFunc: (val: number) => void, $event: Event): void {
     // wtf, how can avoid the typecast here?
     const value = +($event.target as HTMLInputElement).value;
@@ -48,6 +70,9 @@ export class SceneService {
     this.pushSceneUpdate();
   }
 
+  /**
+   * Updates a shape's color given its uuid
+   */
   setShapeColorById(color: hslTriple, uuid: string): void {
     const shapeToUpdate = this.sceneState.find((shape) => shape.id === uuid);
     if (shapeToUpdate) {
