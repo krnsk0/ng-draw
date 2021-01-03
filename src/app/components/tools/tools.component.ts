@@ -4,7 +4,7 @@ import { SceneService } from '../../services/scene.service';
 import { ToolsService } from '../../services/tools.service';
 import { Rectangle, Circle } from '../../shapes';
 import { hslTriple } from '../../types';
-import { random, convertColorTripleToString } from '../../utils';
+import { random, convertColorTripleToString, makeRandomHslColor } from '../../utils';
 @Component({
   selector: 'app-tools',
   templateUrl: './tools.component.html',
@@ -13,15 +13,21 @@ import { random, convertColorTripleToString } from '../../utils';
 export class ToolsComponent implements OnInit {
   // color picker modal state & initial color
   modalState: null | hslTriple = null; // modal is open
-  selectedColor: hslTriple;
+  selectedColor: hslTriple = [0, 0, 0];
   convertColorTripleToString = convertColorTripleToString;
 
   constructor(public toolsService: ToolsService, public sceneService: SceneService) {
-    // intialize selected color to something random
-    this.selectedColor = [random(1, 360), random(1, 100), random(1, 100)];
+    this.pickRandomColor();
   }
 
   ngOnInit(): void {}
+
+  /**
+   * set color to something random
+   */
+  pickRandomColor(): void {
+    this.selectedColor = makeRandomHslColor();
+  }
 
   /**
    * Handle clicks on the shape tools
