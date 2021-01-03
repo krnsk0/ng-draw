@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { SceneService } from '../../services/scene.service';
 import { ToolsService } from '../../services/tools.service';
 import { Scene, Shape } from '../../shapes';
-import { toolTypes } from '../../types';
+import { toolTypes, cursorTypes } from '../../types';
 
 @Component({
   selector: 'app-canvas',
@@ -20,6 +20,14 @@ export class CanvasComponent implements OnInit, OnDestroy {
   readonly height = canvasHeight;
 
   constructor(private sceneService: SceneService, public toolsService: ToolsService) {}
+
+  get cursorStyle(): cursorTypes {
+    if (this.toolsService.toolMode === 'select') {
+      return 'default';
+    } else {
+      return 'crosshair';
+    }
+  }
 
   ngOnInit(): void {
     if (this.canvasRef) {

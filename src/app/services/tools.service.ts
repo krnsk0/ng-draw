@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { toolTypes } from '../types';
+import { toolTypes, cursorTypes } from '../types';
 
 @Injectable({
   providedIn: 'root',
