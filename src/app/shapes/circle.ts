@@ -20,11 +20,11 @@ export class Circle extends Shape {
     super('Circle', hslColor);
   }
 
-  static generateRandomShape(xMax: number, yMax: number): Circle {
-    const hslColor: hslTriple = [random(360), random(100), random(100)];
-    const x = random(xMax);
-    const y = random(yMax);
-    const radius = random(maxCircleRadius / 3) + minCircleRadius;
+  static generateRandomShape(xMax: number, yMax: number, hslColor: hslTriple): Circle {
+    const x = random(1, xMax);
+    const y = random(1, yMax);
+    const radius = random(1, maxCircleRadius / 3) + minCircleRadius;
+    console.log('hslColor, x, y, radius: ', hslColor, x, y, radius);
     return new Circle(hslColor, x, y, radius);
   }
 

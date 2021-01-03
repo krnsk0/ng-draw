@@ -21,13 +21,11 @@ export class Rectangle extends Shape {
     super('Rectangle', hslColor);
   }
 
-  static generateRandomShape(xMax: number, yMax: number): Rectangle {
-    const hslColor: hslTriple = [random(360), random(100), random(100)];
-    const x = random(xMax);
-    const y = random(yMax);
-    const width = random(maxRectangleSide - minRectangleSide) + minRectangleSide;
-    const height = random(maxRectangleSide - minRectangleSide) + minRectangleSide;
-
+  static generateRandomShape(xMax: number, yMax: number, hslColor: hslTriple): Rectangle {
+    const x = random(1, xMax);
+    const y = random(1, yMax);
+    const width = random(1, maxRectangleSide - minRectangleSide) + minRectangleSide;
+    const height = random(1, maxRectangleSide - minRectangleSide) + minRectangleSide;
     return new Rectangle(hslColor, x, y, width, height);
   }
 

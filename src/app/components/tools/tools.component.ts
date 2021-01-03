@@ -18,7 +18,7 @@ export class ToolsComponent implements OnInit {
 
   constructor(public toolsService: ToolsService, public sceneService: SceneService) {
     // intialize selected color to something random
-    this.selectedColor = [random(360), random(100), random(100)];
+    this.selectedColor = [random(1, 360), random(1, 100), random(1, 100)];
   }
 
   ngOnInit(): void {}
@@ -30,14 +30,14 @@ export class ToolsComponent implements OnInit {
     if (tool === 'circle') {
       this.sceneService.sceneState = [
         ...this.sceneService.sceneState,
-        Circle.generateRandomShape(canvasWidth, canvasHeight),
+        Circle.generateRandomShape(canvasWidth, canvasHeight, this.selectedColor),
       ];
       this.sceneService.pushSceneUpdate();
     }
     if (tool === 'rectangle') {
       this.sceneService.sceneState = [
         ...this.sceneService.sceneState,
-        Rectangle.generateRandomShape(canvasWidth, canvasHeight),
+        Rectangle.generateRandomShape(canvasWidth, canvasHeight, this.selectedColor),
       ];
       this.sceneService.pushSceneUpdate();
     }
