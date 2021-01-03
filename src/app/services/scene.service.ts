@@ -61,7 +61,7 @@ export class SceneService {
   /**
    * Updates shape properties based on an event
    * TODO: This is pretty wonky and should be changed to
-   * accept a uuid
+   * accept a uuid or something and not use this crazy callback pattern
    */
   setShapeProperty(setterFunc: (val: number) => void, $event: Event): void {
     // wtf, how can avoid the typecast here?
