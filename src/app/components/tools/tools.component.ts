@@ -4,7 +4,7 @@ import { SceneService } from '../../services/scene.service';
 import { ToolsService } from '../../services/tools.service';
 import { Rectangle, Circle } from '../../shapes';
 import { hslTriple } from '../../types';
-import { random } from '../utils';
+import { random, convertColorTripleToString } from '../../utils';
 @Component({
   selector: 'app-tools',
   templateUrl: './tools.component.html',
@@ -12,11 +12,13 @@ import { random } from '../utils';
 })
 export class ToolsComponent implements OnInit {
   // color picker modal state & initial color
-  modalSelectedColor: null | hslTriple = null; // modal is open
+  modalState: null | hslTriple = null; // modal is open
   selectedColor: hslTriple;
+  convertColorTripleToString = convertColorTripleToString;
 
   constructor(public toolsService: ToolsService, public sceneService: SceneService) {
-    // selectedColor =
+    // intialize selected color to something random
+    this.selectedColor = [random(360), random(100), random(100)];
   }
 
   ngOnInit(): void {}
@@ -38,6 +40,23 @@ export class ToolsComponent implements OnInit {
         Rectangle.generateRandomShape(canvasWidth, canvasHeight),
       ];
       this.sceneService.pushSceneUpdate();
+    }
+  }
+
+  /**
+   * Opens the color picker modal
+   */
+  openModal(initialColor: hslTriple): void {
+    this.modalState = initialColor;
+  }
+
+  /**
+   * Closes modal and either sets a new color or does nothing
+   */
+  closeModal(selectedColor: hslTriple | null): void {
+    this.modalState = null; // close modal
+    if (selectedColor) {
+      this.selectedColor = selectedColor;
     }
   }
 }

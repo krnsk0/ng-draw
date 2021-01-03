@@ -69,8 +69,8 @@
     </div>
   </div>
   <app-color-picker-modal
-    *ngIf="modalSelectedColor"
-    [initialColor]="modalSelectedColor"
+    *ngIf="modalState"
+    [initialColor]="modalState"
     (pickerCancel)="closeModal(null)"
     (pickerConfirm)="closeModal($event)"
   ></app-color-picker-modal>

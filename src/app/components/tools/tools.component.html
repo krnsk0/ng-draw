@@ -1,4 +1,15 @@
 <div class="tool-container">
   <button type="button" class="tool-button" (click)="shapeToolClick('rectangle')">Rectangle</button>
   <button type="button" class="tool-button" (click)="shapeToolClick('circle')">Circle</button>
+  <div
+    class="color-swatch"
+    (click)="openModal(selectedColor)"
+    [style.background]="convertColorTripleToString(selectedColor)"
+  ></div>
+  <app-color-picker-modal
+    *ngIf="modalState"
+    [initialColor]="modalState"
+    (pickerCancel)="closeModal(null)"
+    (pickerConfirm)="closeModal($event)"
+  ></app-color-picker-modal>
 </div>

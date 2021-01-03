@@ -35,7 +35,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   convertColorTripleToString = convertColorTripleToString;
 
   // modal state & initial color
-  modalSelectedColor: null | hslTriple = null; // modal is open when truthy
+  modalState: null | hslTriple = null; // modal is open when truthy
   shapeUuid: null | string = null; // uuid of the shape whose color we are changing
 
   constructor(public sceneService: SceneService) {}
@@ -71,14 +71,14 @@ export class PropertiesComponent implements OnInit, OnDestroy {
    */
   openModal(hslColor: hslTriple, uuid: string): void {
     this.shapeUuid = uuid;
-    this.modalSelectedColor = hslColor;
+    this.modalState = hslColor;
   }
 
   /**
    * Closes modal and either sets a new color or does nothing
    */
   closeModal(selectedColor: hslTriple | null): void {
-    this.modalSelectedColor = null; // close modal
+    this.modalState = null; // close modal
     if (selectedColor && this.shapeUuid) {
       this.sceneService.setShapeColorById(selectedColor, this.shapeUuid);
     }
