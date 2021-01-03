@@ -17,11 +17,6 @@ export abstract class Shape {
     this.hslColor = hslColor;
   }
 
-  static convertColorTripleToString(hslColor: hslTriple): string {
-    const [h, s, l] = hslColor;
-    return `hsl(${h.toString()}, ${s.toString()}%, ${l.toString()}%)`;
-  }
-
   abstract drawHoverHalo(ctx: CanvasRenderingContext2D): void;
   abstract drawSelectionHalo(ctx: CanvasRenderingContext2D): void;
   abstract draw(ctx: CanvasRenderingContext2D): void;

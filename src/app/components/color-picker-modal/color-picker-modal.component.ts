@@ -1,7 +1,7 @@
 import { Component, OnChanges, Output, Input, EventEmitter } from '@angular/core';
 import { SceneService } from '../../services/scene.service';
-import { Shape } from '../../shapes';
 import { hslTriple } from '../../types';
+import { convertColorTripleToString } from '../../utils';
 
 @Component({
   selector: 'app-color-picker-modal',
@@ -13,7 +13,7 @@ export class ColorPickerModalComponent implements OnChanges {
   @Output() pickerCancel = new EventEmitter<null>();
   @Output() pickerConfirm = new EventEmitter<hslTriple>();
   currentColor: hslTriple = [0, 0, 0];
-  convertColorTripleToString = Shape.convertColorTripleToString;
+  convertColorTripleToString = convertColorTripleToString;
 
   constructor(public sceneService: SceneService) {}
 

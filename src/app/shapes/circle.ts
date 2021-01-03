@@ -8,7 +8,7 @@ import {
   maxCircleRadius,
 } from '../constants';
 import { hslTriple } from '../types';
-import { random } from '../utils';
+import { random, convertColorTripleToString } from '../utils';
 
 export class Circle extends Shape {
   constructor(
@@ -59,7 +59,7 @@ export class Circle extends Shape {
 
   draw(ctx: CanvasRenderingContext2D): void {
     const { hslColor, x, y, radius } = this;
-    ctx.fillStyle = Shape.convertColorTripleToString(hslColor);
+    ctx.fillStyle = convertColorTripleToString(hslColor);
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, 2 * Math.PI);
     ctx.fill();

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { SceneService } from '../../services/scene.service';
 import { Scene } from '../../shapes';
-import { Circle, Rectangle, Shape } from '../../shapes';
+import { Circle, Rectangle } from '../../shapes';
 import {
   minRectangleSide,
   maxRectangleSide,
@@ -10,6 +10,7 @@ import {
   maxCircleRadius,
 } from '../../constants';
 import { hslTriple } from '../../types';
+import { convertColorTripleToString } from '../../utils';
 @Component({
   selector: 'app-properties',
   templateUrl: './properties.component.html',
@@ -31,7 +32,7 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   isRectangle = Rectangle.isRectangle;
 
   // TODO remove this after refactor
-  convertColorTripleToString = Shape.convertColorTripleToString;
+  convertColorTripleToString = convertColorTripleToString;
 
   // modal state & initial color
   modalSelectedColor: null | hslTriple = null; // modal is open when truthy

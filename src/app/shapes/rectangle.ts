@@ -8,7 +8,7 @@ import {
   maxRectangleSide,
 } from '../constants';
 import { hslTriple } from '../types';
-import { random } from '../utils';
+import { random, convertColorTripleToString } from '../utils';
 
 export class Rectangle extends Shape {
   constructor(
@@ -68,7 +68,7 @@ export class Rectangle extends Shape {
 
   draw(ctx: CanvasRenderingContext2D): void {
     const { hslColor, x, y, width, height } = this;
-    ctx.fillStyle = Shape.convertColorTripleToString(hslColor);
+    ctx.fillStyle = convertColorTripleToString(hslColor);
     ctx.fillRect(x, y, width, height);
   }
 
