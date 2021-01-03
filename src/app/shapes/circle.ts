@@ -8,8 +8,7 @@ import {
   maxCircleRadius,
 } from '../constants';
 import { hslTriple } from '../types';
-
-const random = (max: number) => Math.floor(Math.random() * Math.floor(max));
+import { random } from '../utils';
 
 export class Circle extends Shape {
   constructor(
