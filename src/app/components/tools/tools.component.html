@@ -35,9 +35,9 @@
     <button
       type="button"
       class="color-swatch"
-      (click)="openModal(selectedColor)"
-      [style.background]="convertColorTripleToString(selectedColor)"
-      [style.color]="selectedColor[2] > 50 ? 'black' : 'white'"
+      (click)="openModal(toolsService.selectedColor)"
+      [style.background]="convertColorTripleToString(toolsService.selectedColor)"
+      [style.color]="toolsService.selectedColor[2] > 50 ? 'black' : 'white'"
     >
       Selected Color
     </button>

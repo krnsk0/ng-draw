@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { toolTypes, cursorTypes } from '../types';
+import { toolTypes, cursorTypes, hslTriple } from '../types';
 
 @Injectable({
   providedIn: 'root',
@@ -12,12 +12,17 @@ export class ToolsService {
   // is mouse down?
   public clickState = false;
 
-  // mouse positions
+  // mouse positions; helps with dragging
   public prevMouseCoords: [number, number] | false = false;
   public curMouseCoords: [number, number] | false = false;
 
-  // tool mode & state
+  // tool mode / cursor state
   public toolMode: toolTypes = 'select';
+  public tempShapeUuid: string | null = null; // uuid of shape being drawn
+  public mousedownCoords: [number, number] | null = null; // needed for rectangle dragging... ☹️
+
+  // what color is selected
+  selectedColor: hslTriple = [0, 0, 0];
 
   /**
    * Because there are no lifecycle methods for singleton services

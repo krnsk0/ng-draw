@@ -1,10 +1,12 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { canvasWidth, canvasHeight, canvasBackgroundColor } from '../../constants';
+import { Circle, Rectangle } from '../../shapes';
 import { Subscription } from 'rxjs';
 import { SceneService } from '../../services/scene.service';
 import { ToolsService } from '../../services/tools.service';
 import { Scene, Shape } from '../../shapes';
 import { toolTypes, cursorTypes } from '../../types';
+import { euclideanDistance } from '../../utils';
 
 @Component({
   selector: 'app-canvas',
@@ -134,9 +136,27 @@ export class CanvasComponent implements OnInit, OnDestroy {
 
   /**
    * Handle mousedown click on a shape
+   * Initiates a drag that creates a shape
+   * Stores the uuid of the temp shape
+   * for modification/destruction later
    */
   handleShapeMousedown(coords: [number, number], toolName: toolTypes): void {
-    // TODO
+    const [x, y] = coords;
+    if (this.toolsService.toolMode === 'circle') {
+      const circle = new Circle(this.toolsService.selectedColor, x, y, 5);
+      this.toolsService.tempShapeUuid = circle.id;
+      this.sceneService.sceneState = [...this.sceneService.sceneState, circle];
+      this.sceneService.pushSceneUpdate();
+    }
+    if (this.toolsService.toolMode === 'rectangle') {
+      const rect = new Rectangle(this.toolsService.selectedColor, x, y, 5, 5);
+      this.toolsService.tempShapeUuid = rect.id;
+      this.sceneService.sceneState = [...this.sceneService.sceneState, rect];
+      this.sceneService.pushSceneUpdate();
+
+      // store click coords to help with dragging later
+      this.toolsService.mousedownCoords = [x, y];
+    }
   }
 
   /**
@@ -148,9 +168,8 @@ export class CanvasComponent implements OnInit, OnDestroy {
     this.toolsService.clickState = true;
     if (coords) {
       this.toolsService.setCurrentCoords(...coords);
-
       // delegate to correct method
-      if (this.toolsService.toolMode) {
+      if (this.toolsService.toolMode === 'select') {
         this.handleSelectMousedown(coords);
       } else {
         this.handleShapeMousedown(coords, this.toolsService.toolMode);
@@ -158,10 +177,12 @@ export class CanvasComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Handler for mousemove events when tool is select
+   */
   handleSelectMove(coords: [number, number]): void {
     const [x, y] = coords;
 
-    // the old move method
     if (!this.toolsService.clickState) {
       this.sceneService.hoverShape(x, y);
     }
@@ -173,9 +194,49 @@ export class CanvasComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Handle shape move
+   * Handles dragging when creating a new shape
    */
-  handleShapeMove(coords: [number, number], toolName: toolTypes): void {}
+  handleShapeMove(coords: [number, number], toolName: toolTypes): void {
+    const [x, y] = coords;
+    const shape = this.sceneService.sceneState.find(
+      (s) => s.id === this.toolsService.tempShapeUuid
+    );
+
+    // Only run when mouse button is down...
+    // Check for 'shape' is just a non-null check,
+    // but typeguards for shape type needed because some
+    // stuff doesn't exist on Shape, only on subclasses
+    if (this.toolsService.clickState && shape) {
+      if (this.toolsService.toolMode === 'circle' && Circle.isCircle(shape)) {
+        // adjust radius
+        const radius = euclideanDistance(x, y, shape.x, shape.y);
+        shape.radius = radius;
+      }
+      if (
+        this.toolsService.toolMode === 'rectangle' &&
+        Rectangle.isRectangle(shape) &&
+        this.toolsService.mousedownCoords
+      ) {
+        const [initialX, initialY] = this.toolsService.mousedownCoords;
+        // adjust rectangle points
+        // cursor is to the right of shape's x
+        if (x > initialX) shape.width = x - initialX;
+        if (x < initialX) {
+          shape.x = x;
+          shape.width = initialX - x;
+        }
+
+        // cursor is below shape's y
+        if (y > initialY) shape.height = y - initialY;
+        if (y < initialY) {
+          shape.y = y;
+          shape.height = initialY - y;
+        }
+      }
+    }
+
+    this.sceneService.pushSceneUpdate();
+  }
 
   /**
    * Upates toolService's state, initiates drags if needed
@@ -187,7 +248,7 @@ export class CanvasComponent implements OnInit, OnDestroy {
       this.toolsService.setCurrentCoords(...coords);
 
       // delegate to correct method
-      if (this.toolsService.toolMode) {
+      if (this.toolsService.toolMode === 'select') {
         this.handleSelectMove(coords);
       } else {
         this.handleShapeMove(coords, this.toolsService.toolMode);
@@ -205,11 +266,11 @@ export class CanvasComponent implements OnInit, OnDestroy {
     if (coords) {
       this.toolsService.setCurrentCoords(...coords);
 
-      // delegate to correct method
-      if (this.toolsService.toolMode) {
-        // TODO
+      // which tool is selected?
+      if (this.toolsService.toolMode === 'select') {
+        // no-op
       } else {
-        // TODO
+        this.toolsService.toolMode = 'select';
       }
     }
   }
