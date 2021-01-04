@@ -221,6 +221,7 @@ export class CanvasComponent implements OnInit, OnDestroy {
         // adjust rectangle points
         // cursor is to the right of shape's x
         if (x > initialX) shape.width = x - initialX;
+        // cursor to left of shape's x
         if (x < initialX) {
           shape.x = x;
           shape.width = initialX - x;
@@ -228,6 +229,7 @@ export class CanvasComponent implements OnInit, OnDestroy {
 
         // cursor is below shape's y
         if (y > initialY) shape.height = y - initialY;
+        // cursor above shape's y
         if (y < initialY) {
           shape.y = y;
           shape.height = initialY - y;
