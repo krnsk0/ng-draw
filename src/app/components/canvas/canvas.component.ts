@@ -268,9 +268,9 @@ export class CanvasComponent implements OnInit, OnDestroy {
 
       // which tool is selected?
       if (this.toolsService.toolMode === 'select') {
-        // no-op
+        // no-op, for now
       } else {
-        this.toolsService.toolMode = 'select';
+        // no-op, for now
       }
     }
   }
