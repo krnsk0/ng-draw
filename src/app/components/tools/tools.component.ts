@@ -11,10 +11,16 @@ import { selectedToolBackgroundColor } from '../../constants';
 })
 export class ToolsComponent implements OnInit {
   // color picker modal state & initial color
-  modalState: null | hslTriple = null; // modal is open
+  pickerModalState: null | hslTriple = null; // modal is open
   convertColorTripleToString = convertColorTripleToString;
   selectedToolBackgroundColor = selectedToolBackgroundColor;
 
+  // options modal
+  isOptionsModalOpen = false;
+
+  /**
+   * Pick random color on page load
+   */
   constructor(public toolsService: ToolsService, public sceneService: SceneService) {
     this.pickRandomColor();
   }
@@ -31,15 +37,15 @@ export class ToolsComponent implements OnInit {
   /**
    * Opens the color picker modal
    */
-  openModal(initialColor: hslTriple): void {
-    this.modalState = initialColor;
+  openPickerModal(initialColor: hslTriple): void {
+    this.pickerModalState = initialColor;
   }
 
   /**
    * Closes modal and either sets a new color or does nothing
    */
-  closeModal(selectedColor: hslTriple | null): void {
-    this.modalState = null; // close modal
+  closePickerModal(selectedColor: hslTriple | null): void {
+    this.pickerModalState = null; // close modal
     if (selectedColor) {
       this.toolsService.selectedColor = selectedColor;
     }
@@ -50,5 +56,19 @@ export class ToolsComponent implements OnInit {
    */
   selectTool(toolName: toolTypes): void {
     this.toolsService.selectTool(toolName);
+  }
+
+  /**
+   * Open options modal
+   */
+  openOptionsModal(): void {
+    this.isOptionsModalOpen = true;
+  }
+
+  /**
+   * Close options modal
+   */
+  closeOptionsModal(): void {
+    this.isOptionsModalOpen = false;
   }
 }

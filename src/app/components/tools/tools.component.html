@@ -35,18 +35,24 @@
     <button
       type="button"
       class="color-swatch"
-      (click)="openModal(toolsService.selectedColor)"
+      (click)="openPickerModal(toolsService.selectedColor)"
       [style.background]="convertColorTripleToString(toolsService.selectedColor)"
       [style.color]="toolsService.selectedColor[2] > 50 ? 'black' : 'white'"
     >
       Selected Color
     </button>
     <app-color-picker-modal
-      *ngIf="modalState"
-      [initialColor]="modalState"
-      (pickerCancel)="closeModal(null)"
-      (pickerConfirm)="closeModal($event)"
+      *ngIf="pickerModalState"
+      [initialColor]="pickerModalState"
+      (pickerCancel)="closePickerModal(null)"
+      (pickerConfirm)="closePickerModal($event)"
     ></app-color-picker-modal>
     <button type="button" class="tool-button" (click)="pickRandomColor()">Random color</button>
+
+    <button type="button" class="tool-button" (click)="openOptionsModal()">More options</button>
+    <app-options-modal
+      *ngIf="isOptionsModalOpen"
+      (optionsCancel)="closeOptionsModal()"
+    ></app-options-modal>
   </div>
 </div>

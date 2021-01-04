@@ -7,6 +7,7 @@ import { PropertiesComponent } from './components/properties/properties.componen
 import { CanvasComponent } from './components/canvas/canvas.component';
 import { ModalLayoutComponent } from './components/modal-layout/modal-layout.component';
 import { ColorPickerModalComponent } from './components/color-picker-modal/color-picker-modal.component';
+import { OptionsModalComponent } from './components/options-modal/options-modal.component';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import { ColorPickerModalComponent } from './components/color-picker-modal/color
     CanvasComponent,
     ModalLayoutComponent,
     ColorPickerModalComponent,
+    OptionsModalComponent,
   ],
   imports: [BrowserModule],
   providers: [],
