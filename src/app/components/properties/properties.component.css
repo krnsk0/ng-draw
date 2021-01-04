@@ -1,5 +1,6 @@
 .properties-container {
   width: 15em;
+  overflow-y: auto;
 }
 
 .shape-container {

@@ -11,6 +11,7 @@ import {
 } from '../../constants';
 import { hslTriple } from '../../types';
 import { convertColorTripleToString } from '../../utils';
+import { canvasHeight } from '../../constants';
 @Component({
   selector: 'app-properties',
   templateUrl: './properties.component.html',
@@ -20,6 +21,9 @@ export class PropertiesComponent implements OnInit, OnDestroy {
   // scene state snapshot and subscription
   private scene: Scene = [];
   private subscription: Subscription | null = null;
+
+  // element height
+  height = `calc(${canvasHeight}px + 0.25em)`;
 
   // mins and maxes for consumption in template
   minRectangleSide = minRectangleSide;
