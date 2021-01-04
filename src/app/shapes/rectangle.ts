@@ -21,16 +21,25 @@ export class Rectangle extends Shape {
     super('Rectangle', hslColor);
   }
 
-  static generateRandomShape(xMax: number, yMax: number, hslColor: hslTriple): Rectangle {
-    const x = random(1, xMax);
-    const y = random(1, yMax);
-    const width = random(1, maxRectangleSide - minRectangleSide) + minRectangleSide;
-    const height = random(1, maxRectangleSide - minRectangleSide) + minRectangleSide;
-    return new Rectangle(hslColor, x, y, width, height);
-  }
-
   static isRectangle(s: Shape): s is Rectangle {
     return s instanceof Rectangle;
+  }
+
+  serialize(): string {
+    const jsonString = JSON.stringify(
+      {
+        type: this.type,
+        hslColor: this.hslColor,
+        x: this.x,
+        y: this.y,
+        width: this.width,
+        height: this.height,
+      },
+      null,
+      2
+    );
+    console.log('jsonString: ', jsonString);
+    return jsonString;
   }
 
   move(dx: number, dy: number): void {

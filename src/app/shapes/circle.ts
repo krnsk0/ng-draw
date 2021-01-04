@@ -20,12 +20,19 @@ export class Circle extends Shape {
     super('Circle', hslColor);
   }
 
-  static generateRandomShape(xMax: number, yMax: number, hslColor: hslTriple): Circle {
-    const x = random(1, xMax);
-    const y = random(1, yMax);
-    const radius = random(1, maxCircleRadius / 3) + minCircleRadius;
-    console.log('hslColor, x, y, radius: ', hslColor, x, y, radius);
-    return new Circle(hslColor, x, y, radius);
+  serialize(): string {
+    const jsonString = JSON.stringify(
+      {
+        type: this.type,
+        hslColor: this.hslColor,
+        x: this.x,
+        y: this.y,
+        radius: this.radius,
+      },
+      null,
+      2
+    );
+    return jsonString;
   }
 
   static isCircle(s: Shape): s is Circle {

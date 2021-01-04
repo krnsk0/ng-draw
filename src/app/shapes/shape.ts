@@ -4,9 +4,6 @@ import { hslTriple } from '../types';
 export abstract class Shape {
   public readonly id: string;
   public readonly type: string;
-
-  // do we need getters/setters here?
-  // probably not
   public selected = false;
   public hovered = false;
   public hslColor: hslTriple;
@@ -17,6 +14,7 @@ export abstract class Shape {
     this.hslColor = hslColor;
   }
 
+  abstract serialize(): string;
   abstract drawHoverHalo(ctx: CanvasRenderingContext2D): void;
   abstract drawSelectionHalo(ctx: CanvasRenderingContext2D): void;
   abstract draw(ctx: CanvasRenderingContext2D): void;
