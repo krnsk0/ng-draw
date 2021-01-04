@@ -1,42 +1,33 @@
 import { Shape } from './shape';
-import {
-  selectionHaloColor,
-  selectionHaloSize,
-  hoverHaloColor,
-  hoverHaloSize,
-  minCircleRadius,
-  maxCircleRadius,
-} from '../constants';
+import { selectionHaloColor, selectionHaloSize, hoverHaloColor, hoverHaloSize } from '../constants';
 import { hslTriple } from '../types';
-import { random, convertColorTripleToString } from '../utils';
+import { convertColorTripleToString } from '../utils';
+
+export type serializedCircle = {
+  kind: 'Circle';
+  hslColor: hslTriple;
+  x: number;
+  y: number;
+  radius: number;
+};
 
 export class Circle extends Shape {
-  constructor(
-    hslColor: [number, number, number],
-    public x: number,
-    public y: number,
-    public radius: number
-  ) {
+  constructor(hslColor: hslTriple, public x: number, public y: number, public radius: number) {
     super('Circle', hslColor);
-  }
-
-  serialize(): string {
-    const jsonString = JSON.stringify(
-      {
-        type: this.type,
-        hslColor: this.hslColor,
-        x: this.x,
-        y: this.y,
-        radius: this.radius,
-      },
-      null,
-      2
-    );
-    return jsonString;
   }
 
   static isCircle(s: Shape): s is Circle {
     return s instanceof Circle;
+  }
+
+  getSerializeables(): serializedCircle {
+    return {
+      kind: 'Circle',
+      hslColor: this.hslColor,
+      x: this.x,
+      y: this.y,
+      radius: this.radius,
+    };
   }
 
   move(dx: number, dy: number): void {

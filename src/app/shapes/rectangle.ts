@@ -1,14 +1,16 @@
 import { Shape } from './shape';
-import {
-  selectionHaloColor,
-  selectionHaloSize,
-  hoverHaloColor,
-  hoverHaloSize,
-  minRectangleSide,
-  maxRectangleSide,
-} from '../constants';
+import { selectionHaloColor, selectionHaloSize, hoverHaloColor, hoverHaloSize } from '../constants';
 import { hslTriple } from '../types';
-import { random, convertColorTripleToString } from '../utils';
+import { convertColorTripleToString } from '../utils';
+
+export type serializedRectangle = {
+  kind: 'Rectangle';
+  hslColor: hslTriple;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+};
 
 export class Rectangle extends Shape {
   constructor(
@@ -25,21 +27,15 @@ export class Rectangle extends Shape {
     return s instanceof Rectangle;
   }
 
-  serialize(): string {
-    const jsonString = JSON.stringify(
-      {
-        type: this.type,
-        hslColor: this.hslColor,
-        x: this.x,
-        y: this.y,
-        width: this.width,
-        height: this.height,
-      },
-      null,
-      2
-    );
-    console.log('jsonString: ', jsonString);
-    return jsonString;
+  getSerializeables(): serializedRectangle {
+    return {
+      kind: 'Rectangle',
+      hslColor: this.hslColor,
+      x: this.x,
+      y: this.y,
+      width: this.width,
+      height: this.height,
+    };
   }
 
   move(dx: number, dy: number): void {

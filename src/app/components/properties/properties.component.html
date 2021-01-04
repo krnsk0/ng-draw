@@ -6,7 +6,7 @@
   </div>
   <div *ngFor="let shape of getSelectedShapes()" class="shape-container">
     <div class="row">
-      <div class="shape-title">{{ shape.type }}</div>
+      <div class="shape-title">{{ shape.kind }}</div>
       <button type="button" class="delete-button" (click)="handleDelete(shape.id)">Delete</button>
     </div>
     <div *ngIf="isCircle(shape)">

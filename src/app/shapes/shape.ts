@@ -3,18 +3,18 @@ import { hslTriple } from '../types';
 
 export abstract class Shape {
   public readonly id: string;
-  public readonly type: string;
+  public readonly kind: string;
   public selected = false;
   public hovered = false;
   public hslColor: hslTriple;
 
-  constructor(type: string, hslColor: hslTriple) {
+  constructor(kind: string, hslColor: hslTriple) {
     this.id = uuidv4();
-    this.type = type;
+    this.kind = kind;
     this.hslColor = hslColor;
   }
 
-  abstract serialize(): string;
+  abstract getSerializeables(): any; // narrowed in subclass
   abstract drawHoverHalo(ctx: CanvasRenderingContext2D): void;
   abstract drawSelectionHalo(ctx: CanvasRenderingContext2D): void;
   abstract draw(ctx: CanvasRenderingContext2D): void;
