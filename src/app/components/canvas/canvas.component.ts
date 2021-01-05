@@ -124,14 +124,12 @@ export class CanvasComponent implements OnInit, OnDestroy {
     }
 
     if (shape) {
-      shape.selected = true;
+      this.sceneService.selectShapeById(shape.id);
     }
 
     if (!shape) {
       this.sceneService.deselectAllShapes();
     }
-
-    this.sceneService.pushSceneUpdate();
   }
 
   /**
@@ -145,14 +143,13 @@ export class CanvasComponent implements OnInit, OnDestroy {
     if (this.toolsService.toolMode === 'circle') {
       const circle = new Circle(this.toolsService.selectedColor, x, y, 5);
       this.toolsService.tempShapeUuid = circle.id;
-      this.sceneService.sceneState = [...this.sceneService.sceneState, circle];
-      this.sceneService.pushSceneUpdate();
+
+      this.sceneService.addShape(circle);
     }
     if (this.toolsService.toolMode === 'rectangle') {
       const rect = new Rectangle(this.toolsService.selectedColor, x, y, 5, 5);
       this.toolsService.tempShapeUuid = rect.id;
-      this.sceneService.sceneState = [...this.sceneService.sceneState, rect];
-      this.sceneService.pushSceneUpdate();
+      this.sceneService.addShape(rect);
 
       // store click coords to help with dragging later
       this.toolsService.mousedownCoords = [x, y];

@@ -45,6 +45,18 @@ export class SceneService {
     this.sceneState.forEach((currentShape) => {
       currentShape.selected = false;
     });
+    this.pushSceneUpdate();
+  }
+
+  /**
+   * Adds shape by ID to selection
+   */
+  selectShapeById(uuid: string): void {
+    const shapeToUpdate = this.sceneState.find((shape) => shape.id === uuid);
+    if (shapeToUpdate) {
+      shapeToUpdate.selected = true;
+      this.pushSceneUpdate();
+    }
   }
 
   /**
@@ -64,10 +76,9 @@ export class SceneService {
    * accept a uuid or something and not use this crazy callback pattern
    */
   setShapeProperty(setterFunc: (val: number) => void, $event: Event): void {
-    // wtf, how can avoid the typecast here?
+    // wtf, how can avoid the typecast here? need a generic of some kind
     const value = +($event.target as HTMLInputElement).value;
     setterFunc(value);
-    this.pushSceneUpdate();
   }
 
   /**
@@ -79,5 +90,22 @@ export class SceneService {
       shapeToUpdate.hslColor = color;
       this.pushSceneUpdate();
     }
+  }
+
+  /**
+   * Adds an array of shapes
+   * Clears out old shapes
+   */
+  addShapes(shapeInstances: Scene): void {
+    this.sceneState = shapeInstances;
+    this.pushSceneUpdate();
+  }
+
+  /**
+   * Adds a single shape
+   */
+  addShape(shape: Shape): void {
+    this.sceneState = [...this.sceneState, shape];
+    this.pushSceneUpdate();
   }
 }
