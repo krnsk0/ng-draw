@@ -7,7 +7,9 @@ import { hslTriple } from '../types';
   providedIn: 'root',
 })
 export class SceneService {
+  // what is this good for? (BehaviorSubject has a .value property that allows you to access the latest value)
   public sceneState: Scene = [];
+  // redundant type declarartion
   public readonly scene$: BehaviorSubject<Scene> = new BehaviorSubject<Scene>(this.sceneState);
 
   constructor() {}

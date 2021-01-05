@@ -15,7 +15,7 @@ export class ModalLayoutComponent implements OnInit {
   /**
    * Communicate background click to parent
    */
-  backgroundClick(): void {
-    this.overlayClick.emit(null);
+  backgroundClick(): void {   // I think smth. like this is okay to be written inline in html
+    this.overlayClick.emit(null);   // Pass click event through to event emitter
   }
 }

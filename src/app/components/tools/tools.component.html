@@ -41,6 +41,22 @@
     >
       Selected Color
     </button>
+    <!-- 
+      I don't really have a strong opinion on what's the best approach to implementing modals.
+      That being said, what I like about this approach is:
+        - simple wiring for parent->child interaction
+        - the pickerConfirm and pickerCancel interface
+        - the modal's lifecycle is bound to it's parent's lifecycle
+      what I don't like is:
+        - initialColor feels like it's really menat to be a "constructor" argument - sadly there's nothing like that in angular.
+            I'd probably either rename the initialColor input to "setColor" or build a two way binding and call it "currentColor"
+            The latter allows to live update the shape's color (we need that type of interaction in the editor in some places)
+      
+      I think it makes sense to view the color picker as a tool that provides some special means of user interaction, and thus
+      produces some output when the user interacts with it. Following this thought I think it is important to have a color output
+      from the component. Also this makes it a vry good choice to put the ngIf here and determine whether or not the component is 
+      displayed from this component's logic.
+     -->
     <app-color-picker-modal
       *ngIf="pickerModalState"
       [initialColor]="pickerModalState"

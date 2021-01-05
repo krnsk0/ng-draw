@@ -9,10 +9,13 @@ import { convertColorTripleToString } from '../../utils';
   styleUrls: ['./color-picker-modal.component.css'],
 })
 export class ColorPickerModalComponent implements OnChanges {
-  @Input() initialColor: null | hslTriple = null;
+  @Input() initialColor: null | hslTriple = null; // you can define a setter for the input property instead of using ngOnChanges
+
+  // I like this portion of the interface
   @Output() pickerCancel = new EventEmitter<null>();
   @Output() pickerConfirm = new EventEmitter<hslTriple>();
-  currentColor: hslTriple = [0, 0, 0];
+
+  currentColor: hslTriple = [0, 0, 0];  // should be observable
   convertColorTripleToString = convertColorTripleToString;
 
   constructor(public sceneService: SceneService) {}
